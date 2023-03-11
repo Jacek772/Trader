@@ -1,0 +1,36 @@
+main {
+    height: 93%;
+    display: flex;
+    flex-direction: row;
+}
+
+section{
+    width: 90%;
+    padding: 2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    /*display: grid;*/
+    /*grid-gap: 2em;*/
+    /*grid-template-columns: repeat(6, auto);*/
+    /*grid-template-rows: repeat(6, auto);*/
+}
+
+/* media queries */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+
+}
+
+@media screen and (min-width: 577px) and (max-width: 767px) {
+
+}
+
+@media screen and (max-width: 576px) {
+
+}
