@@ -1,0 +1,42 @@
+.container{
+    width: 100vw;
+    height: 100vh;
+    color: rebeccapurple;
+    display: flex;
+    flex-direction: row;
+}
+
+main{
+    width: 70%;
+    border: 1px solid;
+    box-sizing: border-box;
+}
+
+.img-loginwallpaper {
+    width: 100%;
+}
+
+section{
+    width: 30%;
+    border: 1px solid;
+    box-sizing: border-box;
+}
+
+.form-login
+{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.form-login-input-container{
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.form-login-input{
+    width: 80%;
+    height: 2em;
+}
