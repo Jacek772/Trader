@@ -1,6 +1,6 @@
 *{
     font-size: 12pt;
-    font-family: Arial !important;
+    font-family: Roboto, Arial, Helvetica, sans-serif !important;
 }
 
 /* Colors */
@@ -53,30 +53,30 @@
 }
 
 /* width */
-.w-25{
+.w-25 {
     width: 25%;
 }
 
-.w-50{
+.w-50 {
     width: 50%;
 }
 
-.w-75{
+.w-75 {
     width: 75%;
 }
 
-.w-100{
+.w-100 {
     width: 100%;
 }
 
 
 /* align */
-.container{
+.container {
     width: 100vw;
     height: 100vh;
 }
 
-.container-row{
+.container-row {
     display: flex;
     flex-direction: row;
 }
@@ -96,14 +96,14 @@
     align-items: center;
 }
 
-.form-title{
+.form-title {
     font-size: 3em;
     font-weight: bold;
     margin: 0.5em 0;
 }
 
 
-.form-item{
+.form-item {
     padding: 1em 0.2em;
     width: 100%;
     box-sizing: border-box;
@@ -122,8 +122,13 @@
     padding: 1em;
     width: 100%;
     box-sizing: border-box;
-    border-radius: 0.5em;
+    border-radius: 3px;
     font-size: 1.5em;
+    border: none;
+}
+
+.input-border {
+    border: 1px solid;
 }
 
 .input-checkbox {
@@ -135,7 +140,7 @@
     cursor: pointer;
 }
 
-.input-label{
+.input-label {
     font-weight: bold;
     font-size: 1em;
 }
@@ -143,29 +148,29 @@
 /* buttons */
 
 .button {
-    padding: 0.7em;
+    padding: 0.5em;
     font-weight: bold;
     border: none;
-    border-radius: 0.5em;
+    border-radius: 3px;
     cursor: pointer;
     font-size: 1.5em;
 }
 
-.button-primary{
+.button-primary {
     background: #59A52C;
     color: #FFF;
 }
 
-.button-primary:hover{
+.button-primary:hover {
     background-color: #6FCA3A;
 }
 
-.button-secondary{
+.button-secondary {
     background: #3A476A;
     color: #FFF;
 }
 
-.button-secondary:hover{
+.button-secondary:hover {
     background: #44537a;
 }
 
@@ -181,7 +186,7 @@
     padding: 0.5em 0;
 }
 
-.alert-text{
+.alert-text {
     text-align: justify;
     padding: 0.5em 0;
 }
@@ -211,12 +216,12 @@
     height: 70%;
 }
 
-.button-logout-container{
+.button-logout-container {
     padding: 1em;
 }
 
 /* vertical nav */
-.nav{
+.nav {
     height: 100%;
     width: 250px;
     padding-top: 30px;
@@ -227,22 +232,32 @@
     box-shadow: 10px -7px 66px -40px rgb(0, 0, 0);
 }
 
-.nav-item{
+.nav-item {
     padding: 1em;
 }
 
-.nav-link{
+.nav-item-main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nav-link {
     font-size: 1.2em;
     text-decoration: none;
     color: #FFFFFF;
 }
 
-.nav-link:hover{
+.nav-link-active {
+    font-weight: bold;
+}
+
+.nav-link:hover {
     color: #bbbbbb;
 }
 
 /* navcard */
-.navcard{
+.navcard {
     padding: 1em;
     cursor: pointer;
     width: 400px;
@@ -256,26 +271,135 @@
     box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 1);
 }
 
-.navcard:hover{
+.navcard-a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navcard:hover {
     background-color: #6bc437;
 }
 
-.navcard-title-container{
+.navcard-title-container {
     display: flex;
     flex-direction: row;
 }
 
-.navcard-title{
+.navcard-title {
     font-weight: bold;
     padding: 0.5em;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
-.navcard-text{
+.navcard-text {
     padding: 0.5em;
 }
 
 /* icons */
 .icon {
     width: 40px;
+}
+
+.icon-small {
+    width: 24px;
+}
+
+.icon-clicable {
+    cursor: pointer;
+}
+
+#iconHamburger {
+    display: none;
+}
+
+/* transform */
+.rotate-180 {
+    transform: rotate(180deg);
+}
+
+/*  */
+
+.user-main {
+    height: calc(100% - 80px);
+    display: flex;
+    flex-direction: row;
+}
+
+.user-section{
+    width: calc(100% - 250px);
+    padding: 2em;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.user-section-title-container {
+    width: 100%;
+    padding: 1em 0em 1em 0em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.user-section-title {
+    font-size: 3em;
+    font-weight: bold;
+    border-bottom: 1px solid #59A52C;
+    padding-bottom: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+/* media queries */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+
+}
+
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    #logoNavbar
+    {
+        display: none;
+    }
+
+    #iconHamburger {
+        display: block;
+    }
+
+    .nav {
+        position: absolute;
+        width: 100%;
+    }
+
+    .navcard {
+        width: 100%;
+        margin-right: 0;
+        height: 100px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    #logoNavbar
+    {
+        display: none;
+    }
+
+    #iconHamburger {
+        display: block;
+    }
+
+    .nav {
+        position: absolute;
+        width: 100%;
+    }
+
+    .navcard {
+        width: 100%;
+        margin-right: 0;
+        height: 100px;
+    }
 }
