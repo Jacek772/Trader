@@ -80,6 +80,529 @@
         <section class="user-section">
             <div class="user-section-title-container color-darkgray">
                 <h1 class="user-section-title">Documents</h1>
+                <div>
+                  <input type="text" placeholder="Search" class="input-text input-border" id="inputSearch">
+                </div>
+            </div>
+
+            <!-- filters panel -->
+            <div class="filters-panel-container">
+              <div class="filters-panel-item">
+                <label class="input-text-label">Period</label>
+                <input class="input-text input-border" type="date" id="filtersDateFrom"/>
+                <input class="input-text input-border" type="date" id="filtersDateTo"/>
+              </div>
+              <div class="filters-panel-item">
+                <label>Definition</label>
+                <select class="input-text input-border" id="filtersDefinition">
+
+                </select>
+              </div>
+              <div class="filters-panel-item">
+                <label class="input-text-label">Contractor</label>
+                <select class="input-text input-border" id="filtersContractor">
+
+                </select>
+              </div>
+              <div class="filters-panel-item">
+                <label class="input-text-label">Warehouse</label>
+                <select class="input-text input-border" id="filtersWarehouse">
+                </select>
+              </div>
+            </div>
+            
+            <!-- action buttons -->
+            <div class="action-buttons-container">
+              <div class="action-buttons-item">
+                <button class="button button-primary">New</button>
+              </div>
+              <div class="action-buttons-item">
+                <button class="button button-danger">Delete</button>
+              </div>
+            </div>
+
+            <!-- table -->
+            <div class="data-grid-container">
+              <div class="data-grid-head">
+                <table class="data-grid">
+                  <thead>
+                    <tr>
+                      <th>
+                        <input type="checkbox" />
+                      </th>
+                      <th>
+                        <div class="data-grid-head-item">
+                          <p>Definition<p/>
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                        </div>
+                      </th>
+                      <th>
+                        <div class="data-grid-head-item">
+                          <p>Document no.</p>
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                        </div>
+                      </th>
+                      <th>
+                        <div class="data-grid-head-item">
+                          <p>Contractor</p>
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                        </div>
+                      </th>
+                      <th>
+                        <div class="data-grid-head-item">
+                          <p>Date</p>
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                        </div>
+                      </th>
+                      <th>
+                        <div class="data-grid-head-item">
+                          <p>State</p>
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                        </div>
+                      </th>
+                      <th>
+                        <div class="data-grid-head-item">
+                          <p>Warehouse</p>
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                        </div>
+                      </th>
+                      <th>
+                        <div class="data-grid-head-item">
+                          <p>Sum netto</p>
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                        </div>
+                      </th>
+                      <th>
+                        <div class="data-grid-head-item">
+                          <p>Sum brutto</p>
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
+                          <img src="./img/svg/arrow-down-black.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+
+              <div class="data-grid-body">
+                <table class="data-grid">
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        FS
+                      </td>
+                      <td>
+                        FS/000001/05/2023
+                      </td>
+                      <td>
+                        Januszex
+                      </td>
+                      <td>
+                        2023-01-06
+                      </td>
+                      <td>
+                        Approved
+                      </td>
+                      <td>
+                        Główny
+                      </td>
+                      <td>
+                        1000,00 zł
+                      </td>
+                      <td>
+                        1230,00 zł
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
         </section>
       </main>
