@@ -1,133 +1,25 @@
+const headers = [
+    { text: "Definition", width: "10%", fieldName: "definition" },
+    { text: "Document no.", width: "15%", fieldName: "number" },
+    { text: "Contractor", width: "15%", fieldName: "contractor" },
+    { text: "Date", width: "10%", fieldName: "date" },
+    { text: "State", width: "10%", fieldName: "state" },
+    { text: "Warehouse", width: "15%", fieldName: "warehouse" },
+    { text: "Sum netto", width: "10%", fieldName: "sunNetto" },
+    { text: "Sum brutto", width: "10%", fieldName: "sumBrutto" }
+]
+
+const dataArray = [
+    { definition: "FS", number: "FS/000001/05/2023", contractor: "Januszex", date: "2023-01-06", state: "Approved", warehouse: "Główny", sunNetto: 1000, sumBrutto: 1230 },
+    { definition: "FS", number: "FS/000002/05/2023", contractor: "Anna", date: "2023-01-06", state: "Approved", warehouse: "Główny", sunNetto: 2000, sumBrutto: 2460 },
+]
+
+let dataGrid
+
+// DOMContentLoaded
 document.addEventListener("DOMContentLoaded", () => {
-    // const dataGrid = new DataGrid()
+    dataGrid = new DataGrid(headers, dataArray)
 
+    const divDataGridContainer = document.getElementById("dataGridContainer")
+    divDataGridContainer.appendChild(dataGrid.getHtml())
 })
-
-class DataGrid {
-    _htmlMain
-    _headers
-    _dataArray
-
-    // headers = [ { text } ]
-    constructor(headers, dataArray)
-    {
-        this._headers = headers
-        this._dataArray = dataArray
-        this.init()
-    }
-
-    init() {
-        this._htmlMain = document.createElement("div")
-        this._htmlMain.className = "data-grid-container"
-
-        this.createDataGridHead()
-        this.createDataGridBody()
-    }
-
-    createDataGridHead() {
-        const dataGridHead = document.createElement("div")
-        dataGridHead.className = "data-grid-head"
-        this._htmlMain.appendChild(dataGridHead)
-
-        const table = document.createElement("table")
-        dataGridHead.appendChild(table)
-
-        const thead = document.createElement("thead")
-        table.appendChild(thead)
-
-        // header
-        const headRow = new HeadRow(this._headers)
-        thead.appendChild(headRow.getHtml())
-
-        // data
-
-    }
-
-    createDataGridBody() {
-        const dataGridBody = document.createElement("div")
-        dataGridBody.className = "data-grid-body"
-    }
-
-    getHtml()
-    {
-        return this._htmlMain
-    }
-}
-
-
-class Row {
-    constructor()
-    {
-        this.initRow()
-    }
-
-    initRow() {
-        this._htmlMain = document.createElement("tr")
-    }
-
-    getHtml()
-    {
-        return this._htmlMain
-    }
-}
-
-class HeadRow extends Row {
-    _headers
-
-    constructor(headers)
-    {
-        this._headers = headers
-        super()
-        this.initHeadRow()
-    }
-
-    initHeadRow() {
-        // Checkbox column
-        const thCheckbox = document.createElement("td")
-        this._htmlMain.appendChild(thCheckbox)
-
-        const inputCheckbox = document.createElement("input")
-        inputCheckbox.type = "checkbox"
-        thCheckbox.appendChild(inputCheckbox)
-
-        // Head columns
-        for(let header in this._headers)
-        {
-
-        }
-    }
-}
-
-class DataRow extends Row {
-    _dataObject
-
-    constructor(dataObject)
-    {
-        this._dataObject = dataObject
-        super()
-        this.initDataRow()
-    }
-
-    initDataRow() {
-        // Checkbox column
-        const tdCheckbox = document.createElement("td")
-        this._htmlMain.appendChild(tdCheckbox)
-
-        const inputCheckbox = document.createElement("input")
-        inputCheckbox.type = "checkbox"
-        tdCheckbox.appendChild(inputCheckbox)
-        
-        // Data columns
-        for(let key of Object.keys(this._dataObject))
-        {
-            const td = document.createElement("td")
-            this._htmlMain.appendChild(td)
-            td.innerText = this._dataObject[key]
-        }
-    }
-
-    getHtml()
-    {
-        return this._htmlMain
-    }
-}
