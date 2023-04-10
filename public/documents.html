@@ -8,10 +8,16 @@
     <link rel="stylesheet" href="./css/zero.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/documents.css">
+    <link rel="stylesheet" href="./css/editform.css">
 
     <!-- JS -->
-    <script src="./js/dataGrid.js"></script>
+    <script src="./js/numberTools.js"></script>
+    <script src="./js/components/htmlComponent.js"></script>
+    <script src="./js/components/dataGrid/rows.js"></script>
+    <script src="./js/components/dataGrid/dataGrid.js"></script>
+    <script src="./js/components/filtersPanel.js"></script>
     <script src="./js/index.js"></script>
+    <script src="./js/documents.js"></script>
     <title>Trader - Documents</title>
 </head>
 <body>
@@ -91,29 +97,8 @@
             </div>
 
             <!-- filters panel -->
-            <div class="filters-panel-container">
-              <div class="filters-panel-item">
-                <label class="input-text-label">Period</label>
-                <input class="input-text input-border" type="date" id="filtersDateFrom"/>
-                <input class="input-text input-border" type="date" id="filtersDateTo"/>
-              </div>
-              <div class="filters-panel-item">
-                <label>Definition</label>
-                <select class="input-text input-border" id="filtersDefinition">
+            <div id="filtersPanelContainer">
 
-                </select>
-              </div>
-              <div class="filters-panel-item">
-                <label class="input-text-label">Contractor</label>
-                <select class="input-text input-border" id="filtersContractor">
-
-                </select>
-              </div>
-              <div class="filters-panel-item">
-                <label class="input-text-label">Warehouse</label>
-                <select class="input-text input-border" id="filtersWarehouse">
-                </select>
-              </div>
             </div>
             
             <!-- action buttons -->
@@ -128,10 +113,108 @@
 
             <!-- table -->
             <div id="dataGridContainer" class="data-grid-container">
-             
+            
             </div>
         </section>
       </main>
     </div>
+
+    <div class="overlay" style="display: none;">
+      <div class="editform-container">
+        <div class="editform-head">
+          <img src="./img/svg/close.svg" id="iconEditformClose" class="icon icon-clicable" alt="iconClose" />
+          <button class="button button-secondary">Save</button>
+          <h2 class="editform-head-title">FS/000001/05/2023</h2>
+        </div>
+        <div class="editform-body">
+          <div class="editform-body-fields-container">
+            <div class="editform-body-fields-row">
+              <div class="editform-body-fields-item">
+                <label class="input-text-label">State</label>
+                <select class="input-text input-border">
+                  <option>test</option>
+                </select>
+              </div>
+              <div class="editform-body-fields-item">
+                <label class="input-text-label">Date</label>
+                <input type="date" class="input-text input-border" />
+              </div>
+              <div class="editform-body-fields-item">
+                <label class="input-text-label">Warehouse</label>
+                <select class="input-text input-border">
+                  <option>test</option>
+                </select>
+              </div>
+              <div class="editform-body-fields-item">
+                <label class="input-text-label">Currency</label>
+                <select class="input-text input-border">
+                  <option>EUR - Euro</option>
+                </select>
+              </div>
+            </div>
+            <div class="editform-body-fields-row">
+              <div class="editform-body-fields-item">
+                <label class="input-text-label">Contractor</label>
+                <select class="input-text input-border">
+                  <option>Januszex Company Sp. z.o.o.</option>
+                  <option>test</option>
+                </select>
+              </div>
+            </div>
+            <div class="editform-body-fields-row">
+              <div class="editform-body-fields-item">
+                <label class="input-text-label">Description</label>
+                <textarea class="input-text input-border"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="action-buttons-container">
+            <div class="action-buttons-item">
+              <button class="button button-primary">New</button>
+            </div>
+            <div class="action-buttons-item">
+              <button class="button button-danger">Delete</button>
+            </div>
+          </div>
+          <div id="dataGridTest" class="data-grid-container">
+
+          </div>
+        </div>
+        <div class="editform-footer">
+          <div class="editform-footer-row">
+            <div class="editform-footer-table-sum-continer">
+              <table class="editform-footer-table-sum">
+                <tr>
+                  <td>
+                    <p class="editform-footer-table-sum-label">Value net:</p>
+                  </td>
+                  <td>
+                    <input type="number" class="input-text input-border" />
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid";>
+                  <td>
+                    <p class="editform-footer-table-sum-label">Value VAT:</p>
+                  </td>
+                  <td>
+                    <input type="number" class="input-text input-border" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p class="editform-footer-table-sum-label">Value gross:</p>
+                  </td>
+                  <td>
+                    <input type="number" class="input-text input-border" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+     
+          </div>
+        </div>
+      </div>
+    </div>
+
     </body>
 </html>

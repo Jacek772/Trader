@@ -1,192 +1,12 @@
-/*
-TODO:
-- jak scroolowany jest nagłówek/body to druga sekcja również jest scrolowana
-- Skończyć eventy _onClick() i _onChecked() na gridzie
-*/
-
-class DataGrid {
-    _htmlMain
-    _dataGridHead
-    _dataGridBody
-    _headers
-    _dataArray
-    _headRow
-    _dataRows = []
-
-    _onClick = (data) => {}
-    _onChecked = (data) => {}
-
-    // headers = [ { text, width } ]
-    // dataArray = [ { ... } ]
-    constructor(headers, dataArray = [],
-        onClick = (data) => {},
-        onChecked = (data) => {})
-    {
-        this._headers = headers
-        this._dataArray = this.prepareDataArray(dataArray)
-
-        this._onClick = onClick
-        this._onChecked = onChecked
-
-        this.init()
-    }
-
-    prepareDataArray = (dataArray) => {
-        let rowId = 1
-        return dataArray.map(dataObject => {
-            dataObject.rowId = rowId
-            return dataObject
-        })
-    }
-
-    init = () => {
-        this._htmlMain = document.createElement("div")
-
-        this._dataGridHead = document.createElement("div")
-        this._dataGridHead.className = "data-grid-head"
-        this._htmlMain.appendChild(this._dataGridHead)
-
-        this._dataGridBody = document.createElement("div")
-        this._dataGridBody.className = "data-grid-body"
-        this._htmlMain.appendChild(this._dataGridBody)
-
-        this.createDataGridHead()
-        this.createDataGridBody()
-    }
-
-    createDataGridHead = () => {
-        const tableHeader = document.createElement("table")
-        tableHeader.className = "data-grid"
-        this._dataGridHead.appendChild(tableHeader)
-
-        // head
-        const thead = document.createElement("thead")
-        tableHeader.appendChild(thead)
-
-        this._headRow = new HeadRow(this._headers,
-            this.onCheckedHead,
-            this.sortData
-        )
-        thead.appendChild(this._headRow.getHtml())
-    }
-
-    onCheckedHead = (checked) => {
-        for(let dataRow of this._dataRows)
-        {
-            dataRow.setCheckedState(checked)
-        }
-    }
-
-    createDataGridBody = () => {
-        this._dataGridBody.innerHTML = ""
-
-        const tableBody = document.createElement("table")
-        tableBody.className = "data-grid"
-        this._dataGridBody.appendChild(tableBody)
-
-        // body
-        const tbody = document.createElement("tbody")
-        tableBody.appendChild(tbody)
-
-        this._dataRows = []
-        for(let dataObject of this._dataArray)
-        {
-            const dataRow = new DataRow(this._headers, 
-                dataObject,
-                this.onCheckedDataRow)
-            dataRow._dataObject
-            this._dataRows.push(dataRow)
-            tbody.appendChild(dataRow.getHtml())
-        }
-    }
-    
-    onCheckedDataRow = () => {
-        if(this._dataRows.every(x => x._checked))
-        {
-            this._headRow.setCheckedState(true, false)
-        }
-        else if(this._dataRows.some(x => !x._checked))
-        {
-            this._headRow.setCheckedState(false, false)
-        }
-
-        this._onChecked()
-    }
-
-    // direction = "asc", "desc"
-    sortData = (direction, field) => {
-        this._dataRows = this._dataRows.sort((a, b) => {
-            if(a._dataObject[field] < b._dataObject[field])
-            {
-                return direction === "asc" ? 1 : -1
-            }
-
-            if(a._dataObject[field] > b._dataObject[field])
-            {
-                return direction === "asc" ? -1 : 1
-            }
-            return 0
-        })
-        this.refreshDataGridBody()
-    }
-
-    filterData = (filterCallback = (dataObject) => {}) => {
-        this._dataRows = this._dataRows.map((dataRow) => {
-            const visible = filterCallback(dataRow._dataObject)
-            dataRow.setVisibility(visible)
-            return dataRow
-        })
-    }
-
-    resetDatafilter = () => {
-        this._dataRows = this._dataRows.map((dataRow) => {
-            dataRow.setVisibility(true)
-            return dataRow
-        })
-    }
-
-    refreshDataGridBody = () => {
-        this._dataGridBody.innerHTML = ""
-
-        const tableBody = document.createElement("table")
-        tableBody.className = "data-grid"
-        this._dataGridBody.appendChild(tableBody)
-
-        // body
-        const tbody = document.createElement("tbody")
-        tableBody.appendChild(tbody)
-
-        for(let dataRow of this._dataRows)
-        {
-            tbody.appendChild(dataRow.getHtml())
-        }
-    }
-
-    getCheckedData = () => {
-        return this._dataRows
-            .filter(x => x._checked)
-            .map(x => x._dataObject)
-    }
-
-    getHtml = () =>
-    {
-        return this._htmlMain
-    }
-}
-
-class Row {
+class Row extends HtmlComponent {
     constructor()
     {
+        super()
         this.initRow()
     }
 
     initRow = () => {
         this._htmlMain = document.createElement("tr")
-    }
-
-    getHtml = () =>
-    {
-        return this._htmlMain
     }
 }
 
@@ -306,8 +126,10 @@ class DataRow extends Row {
         // Checkbox column
         const tdCheckbox = document.createElement("td")
         this._htmlMain.appendChild(tdCheckbox)
-        this._htmlMain.addEventListener("click", (e) => {
-            this._onClick()
+        // tdCheckbox.style.width = "50px";
+
+        this._htmlMain.addEventListener("click", () => {
+            this._onClick(this)
         })
 
         this._inputCheckbox = document.createElement("input")
@@ -348,7 +170,7 @@ class DataRow extends Row {
     setCheckedState = (checked) => {
         this._checked = checked
         this._inputCheckbox.checked = checked
-        this._onChecked(checked)
+        this._onChecked(this)
     }
 
     getHtml = () =>

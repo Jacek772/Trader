@@ -3,7 +3,9 @@
     font-family: Roboto, Arial, Helvetica, sans-serif !important;
 }
 
-/* Colors */
+
+
+/* colors */
 .bg-white{
     background-color: #FFFFFF;
 }
@@ -52,6 +54,8 @@
     color: #3A476A;
 }
 
+
+
 /* width */
 .w-25 {
     width: 25%;
@@ -70,6 +74,7 @@
 }
 
 
+
 /* align */
 .container {
     width: 100vw;
@@ -81,14 +86,18 @@
     flex-direction: row;
 }
 
-/* Shadow */
+
+
+/* shadow */
 .bg-shadow-left {
     -webkit-box-shadow: -15px 0px 25px 0px #161B28;
     -moz-box-shadow: -15px 0px 25px 0px #161B28;
     box-shadow: -15px 0px 25px 0px #161B28;
 }
 
-/* Form */
+
+
+/* form */
 .form-login-container {
     display: flex;
     flex-direction: column;
@@ -119,8 +128,8 @@
 
 .input-text {
     height: 2em;
-    padding: 1em;
-    width: 100%;
+    padding: 0 1em;
+    width: auto;
     box-sizing: border-box;
     border-radius: 3px;
     font-size: 1.2em;
@@ -144,6 +153,8 @@
     font-weight: bold;
     font-size: 1em;
 }
+
+
 
 /* buttons */
 .button {
@@ -181,6 +192,8 @@
 .button-danger:hover {
     background: #c70000;;
 }
+
+
 
 /* alert */
 .alert{
@@ -228,6 +241,8 @@
     padding: 1em;
 }
 
+
+
 /* vertical nav */
 .nav {
     height: 100%;
@@ -269,6 +284,8 @@
     display: none;
 }
 
+
+
 /* navcard */
 .navcard {
     padding: 1em;
@@ -308,6 +325,8 @@
     padding: 0.5em;
 }
 
+
+
 /* icons */
 .icon {
     width: 40px;
@@ -322,10 +341,13 @@
 }
 
 
+
 /* transform */
 .rotate-180 {
     transform: rotate(180deg);
 }
+
+
 
 /* logged user pages */
 .user-main {
@@ -363,6 +385,8 @@
     font-weight: bold;
 }
 
+
+
 /* filters panel */
 .filters-panel-container {
     width: 100%;
@@ -389,6 +413,8 @@
     min-width: 200px;
 }
 
+
+
 /* action buttons */
 .action-buttons-container {
     width: 100%;
@@ -411,6 +437,8 @@
     width: 150px;
 }
 
+
+
 /* data grid */
 /*  */
 .data-grid-container {
@@ -423,7 +451,7 @@
 }
 
 .data-grid-body {
-    height: 400px;
+    /* height: 400px; */
     overflow: auto;
 }
 
@@ -485,6 +513,22 @@
 .data-grid td:first-child {
     width: 50px;
     text-align: center;
+}
+
+
+
+/* overlay */
+.overlay {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* media queries */

@@ -1,0 +1,184 @@
+
+.editform-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: white;
+    width: 90vw;
+    height: 90vh;
+    z-index: 200;
+    padding: 2rem;
+    overflow: auto;
+}
+
+.editform-hr {
+    width: 95%;
+    color: black;
+}
+
+.editform-head {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 4rem 1rem 0rem 1rem;
+    border-bottom: 1px solid;
+}
+
+.editform-head > * {
+ margin-bottom: 1rem;
+}
+
+.editform-head button {
+    min-width: 200px;
+}
+
+#iconEditformClose {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.editform-head-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.editform-body {
+    padding: 1rem 0 1rem 0;
+}
+
+.editform-body-fields-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.editform-body-fields-row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* margin: 0.5rem 0; */
+}
+
+.editform-body-fields-item {
+    margin: 15px 0 0 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.editform-body-fields-item select {
+    min-width: 200px;
+    margin-left: 20px;
+}
+
+.editform-body-fields-item input {
+    min-width: 200px;
+    margin-left: 20px;
+}
+
+.editform-body-fields-item textarea  {
+    min-width: 200px;
+    margin-left: 20px;
+}
+
+
+.editform-action-buttons-container
+{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 1.5rem;
+}
+
+.editform-action-buttons-container > * {
+    padding-bottom: 1.5rem;
+}
+
+.editform-footer {
+    padding: 1rem 0 1rem 0;
+}
+
+.editform-footer-row {
+    width: calc(100% - 2rem);
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+}
+
+.editform-footer-table-sum-continer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    overflow: auto;
+}
+
+.editform-footer-table-sum {
+    
+}
+
+.editform-footer-table-sum-label {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding-right: 30px;
+}
+
+.editform-footer-table-sum td {
+    padding: 15px 0;
+}
+
+
+/* media queries */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  
+}
+
+@media screen and (min-width: 577px) and (max-width: 767px) {
+    .editform-container {
+        width: 100vw;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+
+    .editform-head {
+    flex-direction: column;
+   }
+
+   .editform-body-fields-item {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+   }
+}
+
+@media screen and (max-width: 576px) {
+    .editform-container{
+        width: 100vw;
+        height: 100vh;
+        box-sizing: border-box;
+    }
+
+    .editform-head {
+        flex-direction: column;
+   }
+
+    .editform-body-fields-item {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        margin-bottom: 10px;
+   }
+}
