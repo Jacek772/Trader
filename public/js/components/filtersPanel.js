@@ -48,6 +48,7 @@ class FilterPanelItem extends HtmlComponent {
     _type
     _optionsData
 
+    // Niezbędne dla type.SELECT
     // options = { text, value }
     constructor(labelText, fieldNames, type = FilterPanelItem.types.TEXT, optionsData = [])
     {
@@ -56,6 +57,7 @@ class FilterPanelItem extends HtmlComponent {
         this._fieldNames = fieldNames
         this._type = type
         this._optionsData = optionsData
+        
         this._initFilterPanelItem()
     }
 
@@ -75,18 +77,26 @@ class FilterPanelItem extends HtmlComponent {
 
     _initFilterPanelItem = () => {
         // init container
-        this._htmlMain = document.createElement("div")
-        this._htmlMain.className = "filters-panel-item"
+        this._initInputContainer()
 
         // init label
+        this._initLabel()
+
+        // init input
+        this._initInput()
+    }
+
+    _initInputContainer = () => {
+        this._htmlMain = document.createElement("div")
+        this._htmlMain.className = "filters-panel-item"
+    }
+
+
+    _initLabel = () => {
         const label = document.createElement("label")
         this._htmlMain.appendChild(label)
         label.className = "input-text-label"
         label.innerText = this._labelText
-
-        // init input
-        this._initInput()
-
     }
 
     _initInput = () => {
@@ -164,19 +174,57 @@ class FilterPanelItem extends HtmlComponent {
     _initInputDatePeriod = () => {
         const inputFrom = document.createElement("input")
         this._htmlMain.appendChild(inputFrom)
+
+        const inputTo = document.createElement("input")
+        this._htmlMain.appendChild(inputTo)
+
         inputFrom.type = "date"
         inputFrom.classList.add("input-text")
         inputFrom.classList.add("input-border")
         inputFrom.addEventListener("input", (e) => {
-            this._fieldValues[0] = e.target.value
+            let dateFrom = null
+            if(e.target.value)
+            {
+                dateFrom = new Date(e.target.value)
+            }
+
+            let dateTo = null
+            if(inputTo.value)
+            {
+                dateTo = new Date(inputTo.value)
+            }
+
+            if(dateFrom && dateTo && dateFrom > dateTo)
+            {
+                dateFrom = dateTo
+                e.target.value = inputTo.value
+            }
+
+            this._fieldValues[0] = dateFrom
         })
 
-        const inputTo = document.createElement("input")
-        this._htmlMain.appendChild(inputTo)
         inputTo.type = "date"
         inputTo.classList.add("input-text")
         inputTo.classList.add("input-border")
         inputTo.addEventListener("input", (e) => {
+            let dateFrom = null
+            if(inputFrom.value)
+            {
+                dateFrom = new Date(inputFrom.value)
+            }
+
+            let dateTo = null
+            if(e.target.value)
+            {
+                dateTo = new Date(e.target.value)
+            }
+
+            if(dateFrom && dateTo && dateTo < dateFrom)
+            {
+                dateTo = dateFrom
+                e.target.value = inputFrom.value
+            }
+
             this._fieldValues[1] = e.target.value
         })
 

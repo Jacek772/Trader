@@ -51,11 +51,11 @@ class DataGrid extends HtmlComponent {
             this._dataGridHead.scrollTo(e.target.scrollLeft, this._dataGridHead.scrollTop)
         })
 
-        this.createDataGridHead()
-        this.createDataGridBody()
+        this._createDataGridHead()
+        this._createDataGridBody()
     }
 
-    createDataGridHead = () => {
+    _createDataGridHead = () => {
         const tableHeader = document.createElement("table")
         tableHeader.className = "data-grid"
         this._dataGridHead.appendChild(tableHeader)
@@ -78,7 +78,7 @@ class DataGrid extends HtmlComponent {
         }
     }
 
-    createDataGridBody = () => {
+    _createDataGridBody = () => {
         this._dataGridBody.innerHTML = ""
 
         const tableBody = document.createElement("table")

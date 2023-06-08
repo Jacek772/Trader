@@ -1,3 +1,12 @@
+<?php
+    session_start();
+    if(!$_SESSION["logged"])
+    {
+        header('Location: /');
+        die();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,26 +14,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS -->
-    <link rel="stylesheet" href="./css/zero.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/documents.css">
-    <link rel="stylesheet" href="./css/editform.css">
+    <link rel="stylesheet" href="public/css/zero.css">
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="public/css/documents.css">
+    <link rel="stylesheet" href="public/css/editform.css">
 
     <!-- JS -->
-    <script src="./js/numberTools.js"></script>
-    <script src="./js/components/htmlComponent.js"></script>
-    <script src="./js/components/dataGrid/rows.js"></script>
-    <script src="./js/components/dataGrid/dataGrid.js"></script>
-    <script src="./js/components/filtersPanel.js"></script>
-    <script src="./js/index.js"></script>
-    <script src="./js/documents.js"></script>
+    <script src="public/js/numberTools.js"></script>
+    <script src="public/js/components/htmlComponent.js"></script>
+    <script src="public/js/components/dataGrid/rows.js"></script>
+    <script src="public/js/components/dataGrid/dataGrid.js"></script>
+    <script src="public/js/components/filtersPanel.js"></script>
+    <script src="public/js/index.js"></script>
+    <script src="public/js/documents.js"></script>
     <title>Trader - Documents</title>
 </head>
 <body>
     <div class="container">
       <header class="header">
-        <img src="./img/logo_1.png" id="logoNavbar" alt="logo_2" class="header-img-logo" />
-        <img src="./img/svg/hamburger.svg" id="iconHamburger" class="icon" alt="iconHamburger" />
+        <img src="public/img/logo_1.png" id="logoNavbar" alt="logo_2" class="header-img-logo" />
+        <img src="public/img/svg/hamburger.svg" id="iconHamburger" class="icon" alt="iconHamburger" />
         <div class="button-logout-container">
           <button class="button button-primary">Logout</button>
         </div>
@@ -38,8 +47,8 @@
             <li class="nav-item">
               <div class="nav-item-main">
                 <a href="#" class="nav-link nav-link-active">Documents</a>
-                <img src="./img/svg/arrow-down.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconDocumentsArrowUp" />
-                <img src="./img/svg/arrow-down.svg" class="icon-small icon-clicable" alt="iconDocumentsArrowDown" />
+                <img src="public/img/svg/arrow-down.svg" class="icon-small icon-clicable rotate-180" style="display: none;" alt="iconDocumentsArrowUp" />
+                <img src="public/img/svg/arrow-down.svg" class="icon-small icon-clicable" alt="iconDocumentsArrowDown" />
               </div>
               <ul>
                 <li class="nav-item">
@@ -68,8 +77,8 @@
             <li class="nav-item">
               <div class="nav-item-main">
                 <a href="#" class="nav-link">Settings</a>
-                <img src="./img/svg/arrow-down.svg" class="icon-small icon-clicable rotate-180"  style="display: none;" alt="iconSettingsArrowUp" />
-                <img src="./img/svg/arrow-down.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
+                <img src="public/img/svg/arrow-down.svg" class="icon-small icon-clicable rotate-180" style="display: none;" alt="iconSettingsArrowUp" />
+                <img src="public/img/svg/arrow-down.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
               </div>
               <ul>
                 <li class="nav-item">
@@ -119,10 +128,39 @@
       </main>
     </div>
 
-    <div class="overlay" style="display: none;">
+    <!-- <div class="overlay" style="display: none;"> -->
+    <div class="overlay">
       <div class="editform-container">
         <div class="editform-head">
-          <img src="./img/svg/close.svg" id="iconEditformClose" class="icon icon-clicable" alt="iconClose" />
+          <input type="text" id="inputText" />
+          <script>
+            const inputText = document.getElementById("inputText")
+            inputText.addEventListener("input", (e) => {
+              console.log("input")
+            })
+
+            inputText.addEventListener("keydown", (e) => {
+              console.log(e.key)
+              if(e.key == "Enter")
+              {
+                // Zapis zmian
+                e.target.blur()
+              }
+
+              if(e.key == "Escape")
+              {
+                // Cofnięcie zmian
+                e.target.blur()
+              }
+            })
+
+
+            inputText.addEventListener("blur", (e) => {
+              console.log("BLUR")
+            })
+          </script>
+
+          <img src="public/img/svg/close.svg" id="iconEditformClose" class="icon icon-clicable" alt="iconClose" />
           <button class="button button-secondary">Save</button>
           <h2 class="editform-head-title">FS/000001/05/2023</h2>
         </div>

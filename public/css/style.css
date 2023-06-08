@@ -129,7 +129,7 @@
 .input-text {
     height: 2em;
     padding: 0 1em;
-    width: auto;
+    width: 100%;
     box-sizing: border-box;
     border-radius: 3px;
     font-size: 1.2em;
@@ -525,7 +525,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.7);
-    z-index: 100;
+    z-index: 200;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -579,6 +579,7 @@
 
     .filters-panel-container {
         flex-direction: column;
+        width: 100%;
     }
 
     .filters-panel-container label {
@@ -646,6 +647,7 @@
 
     .filters-panel-container {
         flex-direction: column;
+        width: 100%;
     }
 
     .filters-panel-container label {
