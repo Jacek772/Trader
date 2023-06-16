@@ -2,6 +2,36 @@
 
 class DocumentdefinitionsRepository extends Repository
 {
+    public function getAllDocumentsdefinitions(): array
+    {
+        $query = "SELECT * FROM trader.documentdefinitions";
+
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute();
+
+        $documentsdefinitionsData = $stmt->fetchAll();
+        if(!$documentsdefinitionsData)
+        {
+            return [];
+        }
+
+        $documentsdefinitions = [];
+        foreach ($documentsdefinitionsData as $documentdefinitionData)
+        {
+            $documentdefinition = new Documentdefinition(
+                $documentdefinitionData["iddocumentdefinition"],
+                $documentdefinitionData["name"],
+                $documentdefinitionData["symbol"],
+                $documentdefinitionData["direction"],
+                $documentdefinitionData["type"],
+                $documentdefinitionData["description"]
+            );
+
+            array_push($documentsdefinitions, $documentdefinition);
+        }
+        return $documentsdefinitions;
+    }
+
     public function getDocumentdefinition(string $symbol) : ?Documentdefinition
     {
         $query = "SELECT * FROM trader.documentdefinitions WHERE symbol = :symbol";

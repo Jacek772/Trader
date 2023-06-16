@@ -14,89 +14,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS -->
-    <link rel="stylesheet" href="public/css/zero.css">
-    <link rel="stylesheet" href="public/css/style.css">
-    <link rel="stylesheet" href="public/css/documents.css">
-    <link rel="stylesheet" href="public/css/editform.css">
+    <link rel="stylesheet" href="/public/css/zero.css">
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/public/css/documents.css">
+    <link rel="stylesheet" href="/public/css/editform.css">
 
     <!-- JS -->
-    <script src="public/js/numberTools.js"></script>
-    <script src="public/js/components/htmlComponent.js"></script>
-    <script src="public/js/components/dataGrid/rows.js"></script>
-    <script src="public/js/components/dataGrid/dataGrid.js"></script>
-    <script src="public/js/components/filtersPanel.js"></script>
-    <script src="public/js/index.js"></script>
-    <script src="public/js/documents.js"></script>
+    <script src="/public/js/numberTools.js"></script>
+
+    <!-- Components -->
+    <script src="/public/js/components/htmlComponent.js"></script>
+    <script src="/public/js/components/dataGrid/rows.js"></script>
+    <script src="/public/js/components/dataGrid/dataGrid.js"></script>
+    <script src="/public/js/components/filtersPanel.js"></script>
+
+    <!-- Api -->
+    <script src="/public/js/api/Api.js"></script>
+    <script src="/public/js/api/ApiDocuments.js"></script>
+    <script src="/public/js/api/ApiDocumentsdefinitions.js"></script>
+    <script src="/public/js/api/ApiContractors.js"></script>
+    <script src="/public/js/api/ApiWarehouses.js"></script>
+
+    <script src="/public/js/index.js"></script>
+    <script src="/public/js/documents.js"></script>
     <title>Trader - Documents</title>
 </head>
 <body>
     <div class="container">
-      <header class="header">
-        <img src="public/img/logo_1.png" id="logoNavbar" alt="logo_2" class="header-img-logo" />
-        <img src="public/img/svg/hamburger.svg" id="iconHamburger" class="icon" alt="iconHamburger" />
-        <div class="button-logout-container">
-          <button class="button button-primary">Logout</button>
-        </div>
-      </header>
+        <!-- header -->
+        <?php
+            require_once(__DIR__."/../components/header.php")
+        ?>
+
       <main class="user-main">
-        <nav class="nav">
-          <ul>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-              <div class="nav-item-main">
-                <a href="#" class="nav-link nav-link-active">Documents</a>
-                <img src="public/img/svg/arrow-down.svg" class="icon-small icon-clicable rotate-180" style="display: none;" alt="iconDocumentsArrowUp" />
-                <img src="public/img/svg/arrow-down.svg" class="icon-small icon-clicable" alt="iconDocumentsArrowDown" />
-              </div>
-              <ul>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">All</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">Orders</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">Invoices</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">Offers</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Contractors</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Commodities</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Exchanges</a>
-            </li>
-            <li class="nav-item">
-              <div class="nav-item-main">
-                <a href="#" class="nav-link">Settings</a>
-                <img src="public/img/svg/arrow-down.svg" class="icon-small icon-clicable rotate-180" style="display: none;" alt="iconSettingsArrowUp" />
-                <img src="public/img/svg/arrow-down.svg" class="icon-small icon-clicable" alt="iconSettingsArrowDown" />
-              </div>
-              <ul>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">Main</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">Documents definitions</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">Account</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">Users</a>
-                </li>
-              </ul>    
-            </li>
-          </ul>
-        </nav>
+          <!-- nav -->
+          <?php
+            require_once(__DIR__."/../components/navigation.php")
+          ?>
+
         <section class="user-section">
             <div class="user-section-title-container color-darkgray">
                 <h1 class="user-section-title">Documents</h1>
@@ -128,8 +83,8 @@
       </main>
     </div>
 
-    <!-- <div class="overlay" style="display: none;"> -->
-    <div class="overlay">
+     <div class="overlay" style="display: none;">
+<!--    <div class="overlay">-->
       <div class="editform-container">
         <div class="editform-head">
           <input type="text" id="inputText" />

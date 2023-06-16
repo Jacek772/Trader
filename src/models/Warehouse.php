@@ -1,6 +1,6 @@
 <?php
 
-class Warehouse
+class Warehouse implements JsonSerializable
 {
     private $idwarehouse;
     private $symbol;
@@ -65,5 +65,10 @@ class Warehouse
     public function setIdaddress(int $idaddress): void
     {
         $this->idaddress = $idaddress;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

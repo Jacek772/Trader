@@ -1,6 +1,6 @@
 <?php
 
-class Address
+class Address implements JsonSerializable
 {
     private $idaddress;
     private $city;
@@ -79,5 +79,8 @@ class Address
         $this->zipcode = $zipcode;
     }
 
-
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

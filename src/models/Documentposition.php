@@ -1,6 +1,6 @@
 <?php
 
-class Documentposition
+class Documentposition implements JsonSerializable
 {
     private $iddocumentposition;
     private $quantity;
@@ -79,5 +79,8 @@ class Documentposition
         $this->idvatrate = $idvatrate;
     }
 
-
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

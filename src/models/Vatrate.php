@@ -1,6 +1,6 @@
 <?php
 
-class Vatrate
+class Vatrate implements JsonSerializable
 {
     private $idvatrate;
     private $percent;
@@ -31,5 +31,8 @@ class Vatrate
         $this->percent = $percent;
     }
 
-
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

@@ -39,6 +39,11 @@ class ContractorsService
         return $contractor != null;
     }
 
+    public function getAllContractors(): array
+    {
+        return $this->contractorsRepository->getAllContractors();
+    }
+
     public function getContractor(?string $companyname): ?Contractor
     {
         if(!$companyname)

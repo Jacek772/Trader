@@ -1,6 +1,6 @@
 <?php
 
-class Commodity
+class Commodity implements JsonSerializable
 {
     private $idcommodity;
     private $symbol;
@@ -79,5 +79,8 @@ class Commodity
         $this->idvatrate = $idvatrate;
     }
 
-
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

@@ -18,9 +18,21 @@ class DocumentsController extends AppController
 
     public function all()
     {
-        $data = ["documents" => $this->documentsService->getAllDocuments()];
-        echo json_encode($data);
+        $periodFrom = $_GET["periodFrom"];
+        $periodTo = $_GET["periodTo"];
+        $definition = $_GET["definition"];
+        $contractor = $_GET["contractor"];
+        $warehouse = $_GET["warehouse"];
+
+        $data = ["documents" => $this->documentsService->getDocuments($periodFrom, $periodTo, $definition, $contractor, $warehouse)];
+        echo json_encode($data, true);
     }
 
-
+    public function delete()
+    {
+        $idsStr = $_POST["ids"];
+        $ids = $str_arr = preg_split ("/\,/", $idsStr);
+        $this->documentsService->deleteDocuments($ids);
+    }
 }
+

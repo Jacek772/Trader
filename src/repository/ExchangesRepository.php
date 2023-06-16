@@ -11,7 +11,13 @@ class ExchangesRepository extends Repository
 {
     public function getAllExchanges(): array
     {
-        $query = "SELECT * FROM trader.exchanges";
+        $query = "SELECT e.idexchange e_idexchange, e.dateofpublication e_dateofpublication, e.announcementdate e_announcementdate,
+                   e.tablenumber e_tablenumber, e.factor e_factor, e.rate e_rate,
+                   c.idcurrency c_idcurrency, c.symbol c_symbol, c.name c_name
+                    FROM trader.exchanges e
+                    INNER JOIN trader.currencies c ON c.idcurrency = e.idcurrency
+                    ORDER BY e.dateofpublication DESC";
+
         $stmt = $this->databse->connect()->prepare($query);
         $stmt->execute();
         $exchangesData = $stmt->fetchAll();
@@ -25,14 +31,22 @@ class ExchangesRepository extends Repository
         foreach ($exchangesData as $exchangeData)
         {
             $exchange = new Exchange(
-                $exchangeData["idexchange"],
-                $exchangeData["dateofpublication"],
-                $exchangeData["announcementdate"],
-                $exchangeData["tablenumber"],
-                $exchangeData["factor"],
-                $exchangeData["rate"],
-                $exchangeData["idcurrency"]
+                $exchangeData["e_idexchange"],
+                $exchangeData["e_dateofpublication"],
+                $exchangeData["e_announcementdate"],
+                $exchangeData["e_tablenumber"],
+                $exchangeData["e_factor"],
+                $exchangeData["e_rate"],
+                $exchangeData["c_idcurrency"]
             );
+
+            $currency = new Currency(
+                $exchangeData["c_idcurrency"],
+                $exchangeData["c_symbol"],
+                $exchangeData["c_name"]
+            );
+
+            $exchange->setCurrency($currency);
 
             array_push($exchanges, $exchange);
         }

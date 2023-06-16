@@ -9,37 +9,57 @@ const headers = [
     { text: "Sum brutto", width: "10%", fieldName: "sumBrutto" }
 ]
 
-const dataArray = [
-    { definition: "FS", number: "FS/000001/05/2023", contractor: "Januszex", date: "2023-01-06", state: "Approved", warehouse: "Główny", sunNetto: 1000, sumBrutto: 1230 },
-    { definition: "FS", number: "FS/000002/05/2023", contractor: "Anna", date: "2023-01-06", state: "Approved", warehouse: "Główny", sunNetto: 2000, sumBrutto: 2460 },
-]
-
 let dataGrid
 let filtersPanel
 
 // DOMContentLoaded
-document.addEventListener("DOMContentLoaded", () => {
-    dataGrid = new DataGrid(headers, dataArray)
+document.addEventListener("DOMContentLoaded", async () => {
+    const documents = await getDocuments()
+
+    // dataGrid = new DataGrid(headers, dataArray)
+    dataGrid = new DataGrid(headers, documents)
     filtersPanel = new FiltersPanel()
+
+    filtersPanel.onChange = async (filters) => {
+        let query = { }
+        for(let filter of filters)
+        {
+            query = { ...query, ...filter }
+        }
+        const documents = await getDocuments(query)
+        dataGrid.setDataArray(documents)
+    }
 
     // Grid
     const divDataGridContainer = document.getElementById("dataGridContainer")
     divDataGridContainer.appendChild(dataGrid.getHtml())
 
     // Filter panel
+    const documentsdefinitionsRes = await ApiDocumentsdefinitions.getAllDocumentsdefinitions()
+    const documentsdefinitions = documentsdefinitionsRes.data.documentsdefinitions.map(x => ({
+        text: x.symbol,
+        value: x.idDocumentdefinition
+    }))
+
+    const contractorsRes = await ApiContractors.getAllContractors()
+    const contractors = contractorsRes.data.contractors.map(x => ({
+        text: x.companyname,
+        value: x.idcontractor
+    }))
+
+    const warehousesRes = await ApiWarehouses.getAllWarehouses()
+    const warehouses = warehousesRes.data.warehouses.map(x => ({
+        text: `(${x.symbol}) ${x.name}`,
+        value: x.idwarehouse
+    }))
+
     filtersPanel.addItem(new FilterPanelItem("Period", ["periodFrom", "periodTo"], FilterPanelItem.types.DATE_PERIOD))
-    filtersPanel.addItem(new FilterPanelItem("Definition", ["definition"], FilterPanelItem.types.SELECT, [
-        {text:"fs", value: 1},
-        {text:"zo", value: 2},
-        {text:"wz", value: 3 },
-        {text:"zd", value: 4},
-    ]))
-    filtersPanel.addItem(new FilterPanelItem("Contractor", ["contractor"], FilterPanelItem.types.SELECT, []))
-    filtersPanel.addItem(new FilterPanelItem("Warehouse", ["warehouse"], FilterPanelItem.types.SELECT, []))
+    filtersPanel.addItem(new FilterPanelItem("Definition", ["definition"], FilterPanelItem.types.SELECT_WITH_EMPTY, documentsdefinitions))
+    filtersPanel.addItem(new FilterPanelItem("Contractor", ["contractor"], FilterPanelItem.types.SELECT_WITH_EMPTY, contractors))
+    filtersPanel.addItem(new FilterPanelItem("Warehouse", ["warehouse"], FilterPanelItem.types.SELECT_WITH_EMPTY, warehouses))
 
     const divFiltersPanelContainer = document.getElementById("filtersPanelContainer")
     divFiltersPanelContainer.appendChild(filtersPanel.getHtml())
-
 
     // Search input
     const inputSearch = document.getElementById("inputSearch")
@@ -57,12 +77,33 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     const btnDelete = document.getElementById("btnDelete")
-    btnDelete.addEventListener("click", () => {
-
+    btnDelete.addEventListener("click", async () => {
+        const idsToDelete = dataGrid.getCheckedData().map(x => x.idDocument)
+        await ApiDocuments.deleteDocuments(idsToDelete)
     })
 
     // const dataGridTest = document.getElementById("dataGridTest")
     // dataGridTest.appendChild(dataGrid.getHtml())
 
+
     
 })
+
+
+async function getDocuments(query = {}) {
+    const documentsRes = await ApiDocuments.getDocuments(query)
+    return documentsRes.data.documents.map(x => ({
+        idDocument: x.idDocument,
+        definition: x.definition.symbol,
+        number: x.number,
+        contractor: x.contractor.companyname,
+        date: x.date,
+        state: x.state,
+        warehouse: x.warehouse.name,
+        sunNetto: 0,
+        sumBrutto: 0
+    }))
+}
+
+
+

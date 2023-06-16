@@ -23,18 +23,18 @@ class DataGrid extends HtmlComponent {
         this._onClick = onClick
         this._onChecked = onChecked
 
-        this.init()
+        this._init()
     }
 
     prepareDataArray = (dataArray) => {
         let rowId = 1
         return dataArray.map(dataObject => {
-            dataObject.rowId = rowId
+            dataObject.rowId = rowId++
             return dataObject
         })
     }
 
-    init = () => {
+    _init = () => {
         this._htmlMain = document.createElement("div")
 
         this._dataGridHead = document.createElement("div")
@@ -100,7 +100,11 @@ class DataGrid extends HtmlComponent {
             this._dataRows.push(dataRow)
             tbody.appendChild(dataRow.getHtml())
         }
+    }
 
+    setDataArray = (dataArray) => {
+        this._dataArray = this.prepareDataArray(dataArray)
+        this._createDataGridBody()
     }
     
     onCheckedDataRow = (row) => {

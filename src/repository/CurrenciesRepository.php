@@ -8,6 +8,33 @@ require_once __DIR__."/../models/Currency.php";
 
 class CurrenciesRepository extends Repository
 {
+    public function getAllCurrencies(): array
+    {
+        $query = "SELECT * FROM trader.currencies";
+
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute();
+
+        $currenciesData = $stmt->fetchAll();
+        if(!$currenciesData)
+        {
+            return [];
+        }
+
+        $currencies = [];
+        foreach ($currenciesData as $currencyData)
+        {
+            $currency = new Currency(
+                $currencyData["idcurrency"],
+                $currencyData["symbol"],
+                $currencyData["name"]
+            );
+
+            array_push($currencies, $currency);
+        }
+        return $currencies;
+    }
+
     public function getCurrency(string $symbol): ?Currency
     {
         $query = "SELECT * FROM trader.currencies WHERE symbol = :symbol";

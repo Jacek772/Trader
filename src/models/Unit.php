@@ -1,6 +1,6 @@
 <?php
 
-class Unit
+class Unit implements JsonSerializable
 {
     private $idunit;
     private $symbol;
@@ -29,5 +29,10 @@ class Unit
     public function setSymbol(string $symbol): void
     {
         $this->symbol = $symbol;
+    }
+
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
     }
 }

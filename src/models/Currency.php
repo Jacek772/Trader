@@ -1,6 +1,6 @@
 <?php
 
-class Currency
+class Currency implements JsonSerializable
 {
     private $idcurrency;
     private $symbol;
@@ -43,5 +43,8 @@ class Currency
         $this->name = $name;
     }
 
-
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

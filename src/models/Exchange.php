@@ -1,6 +1,6 @@
 <?php
 
-class Exchange
+class Exchange implements JsonSerializable
 {
     private $idexchange;
     private $dateofpublication;
@@ -9,6 +9,8 @@ class Exchange
     private $factor;
     private $rate;
     private $idcurrency;
+
+    private $currency;
 
     public function __construct(int $idexchange, string $dateofpublication, string $announcementdate, string $tablenumber, float $factor, float $rate, int $idcurrency)
     {
@@ -89,6 +91,21 @@ class Exchange
     public function setIdcurrency(int $idcurrency): void
     {
         $this->idcurrency = $idcurrency;
+    }
+
+    public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency($currency): void
+    {
+        $this->currency = $currency;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }
 

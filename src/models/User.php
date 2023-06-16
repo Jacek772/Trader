@@ -1,6 +1,6 @@
 <?php
 
-class User
+class User implements JsonSerializable
 {
     private $idUser;
     private $idRole;
@@ -88,5 +88,10 @@ class User
     public function setEnabled(bool $enabled)
     {
         $this->enabled = $enabled;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

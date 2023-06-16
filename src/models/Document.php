@@ -1,6 +1,6 @@
 <?php
 
-class Document
+class Document implements JsonSerializable
 {
     private $idDocument;
     private $date;
@@ -11,7 +11,12 @@ class Document
     private $idContractor;
     private $idWarehouse;
     private $idCurrency;
+
+
     private $definition;
+    private $currency;
+    private $contractor;
+    private $warehouse;
     private $positions;
 
     public function __construct(int $idDocument, string $date, string $number, int $state, string $description, int $idDefinition, int $idContractor, int $idWarehouse, int $idCurrency)
@@ -122,9 +127,39 @@ class Document
         return $this->definition;
     }
 
-    public function setDefinition(int $definition): void
+    public function setDefinition(Documentdefinition $definition): void
     {
         $this->definition = $definition;
+    }
+
+    public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(Currency $currency): void
+    {
+        $this->currency = $currency;
+    }
+
+    public function getContractor(): Contractor
+    {
+        return $this->contractor;
+    }
+
+    public function setContractor(Contractor $contractor): void
+    {
+        $this->contractor = $contractor;
+    }
+
+    public function getWarehouse(): Warehouse
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse(Warehouse $warehouse): void
+    {
+        $this->warehouse = $warehouse;
     }
 
     public function getPositions(): array
@@ -135,5 +170,10 @@ class Document
     public function setPositions(array $positions): void
     {
         $this->positions = $positions;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

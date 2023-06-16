@@ -32,7 +32,7 @@
             <div class="form-login-container w-75">
                 <h2 class="form-title color-white">Login</h2>
                 <hr class="w-100"/>
-                <form class="w-100" method="POST" action="api/auth/login">
+                <form class="w-100" method="POST" action="/api/auth/login">
                     <div class="form-item">
                         <input name="login" type="text" placeholder="login" class="input-text">
                     </div>

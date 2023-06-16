@@ -32,6 +32,18 @@ $path = parse_url($path, PHP_URL_PATH);
 Routing::get("", "index", "DefaultController");
 Routing::get("home", "home", "DefaultController");
 Routing::get("documents", "documents", "DefaultController");
+Routing::get("documents/all", "documentsAll", "DefaultController");
+Routing::get("documents/orders", "documentsOrders", "DefaultController");
+Routing::get("documents/invoices", "documentsInvoices", "DefaultController");
+Routing::get("documents/offers", "documentsOffers", "DefaultController");
+Routing::get("contractors", "contractors", "DefaultController");
+Routing::get("commodities", "commodities", "DefaultController");
+Routing::get("exchanges", "exchanges", "DefaultController");
+Routing::get("settings", "settings", "DefaultController");
+Routing::get("settings/main", "settingsMain", "DefaultController");
+Routing::get("settings/documentsdefinitions", "settingsDocumentsdefinitions", "DefaultController");
+Routing::get("settings/account", "settingsAccount", "DefaultController");
+Routing::get("settings/users", "settingsUsers", "DefaultController");
 
 // AuthController
 Routing::post("api/auth/login", "login", "AuthController");
@@ -39,5 +51,24 @@ Routing::post("api/auth/logout", "logout", "AuthController");
 
 //DocumentsController
 Routing::get("api/documents", "all", "DocumentsController");
+Routing::post("api/documents/delete", "delete", "DocumentsController");
+
+//ExchangesController
+Routing::get("api/exchanges", "all", "ExchangesController");
+Routing::post("api/exchanges/import", "fetchExchangesAndSave", "ExchangesController");
+
+// WarehousesController
+Routing::get("api/warehouses", "all", "WarehousesController");
+
+// ContractorsController
+Routing::get("api/contractors", "all", "ContractorsController");
+
+// CurrenciesController
+Routing::get("api/currencies", "all", "CurrenciesController");
+
+// DocumentsdefinitionsController
+Routing::get("api/documentsdefinitions", "all", "DocumentsdefinitionsController");
 
 Routing::run($path);
+
+

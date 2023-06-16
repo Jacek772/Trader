@@ -7,6 +7,35 @@ require_once __DIR__."/../models/Warehouse.php";
 
 class WarehousesRepository extends Repository
 {
+    public function getAllWarehouses(): array
+    {
+        $query = "SELECT * FROM trader.warehouses";
+
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute();
+
+        $warehousesData = $stmt->fetchAll();
+        if(!$warehousesData)
+        {
+            return [];
+        }
+
+        $warehouses = [];
+        foreach ($warehousesData as $warehouseData)
+        {
+            $warehouse = new Warehouse(
+                $warehouseData["idwarehouse"],
+                $warehouseData["symbol"],
+                $warehouseData["name"],
+                $warehouseData["description"],
+                $warehouseData["idaddress"]
+            );
+
+            array_push($warehouses, $warehouse);
+        }
+        return $warehouses;
+    }
+
     public function getWarehouse(string $symbol): ?Warehouse
     {
         $query = "SELECT * FROM trader.warehouses WHERE symbol = :symbol LIMIT 1";

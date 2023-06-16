@@ -20,6 +20,11 @@ class DocumentsService
         return $this->documentsRepository->getAllDocuments();
     }
 
+    public function getDocuments(string $periodFrom = null, string $periodTo = null, int $idDefinition = null, int $idContractor = null, int $idWarehouse = null)  : array
+    {
+        return $this->documentsRepository->getDocuments($periodFrom, $periodTo, $idDefinition, $idContractor, $idWarehouse);
+    }
+
     public function createDocumentIfNotExist(Document $document): void
     {
         if(!$this->existsDocument($document->getNumber()))
@@ -47,5 +52,15 @@ class DocumentsService
     public function getDocument(string $number): ?Document
     {
         return $this->documentsRepository->getDocument($number);
+    }
+
+    public function deleteDocuments(array $ids): void
+    {
+        if(!$ids || count($ids) == 0)
+        {
+            return;
+        }
+
+        $this->documentsRepository->deleteDocuments($ids);
     }
 }

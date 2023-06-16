@@ -86,9 +86,14 @@ class ExchangesService
         return $this->exchangesRepository->getExchangeByCurrencySymbol($date, $currencySymbol);
     }
 
+    public function getAllExchanges(): array
+    {
+        return $this->exchangesRepository->getAllExchanges();
+    }
+
     public function getExchange(string $date, int $idcurrency): ?Exchange
     {
         return $this->exchangesRepository->getExchange($date, $idcurrency);
     }
-
 }
+

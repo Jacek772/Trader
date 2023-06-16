@@ -1,6 +1,6 @@
 <?php
 
-class Contractor
+class Contractor implements JsonSerializable
 {
     private $idcontractor;
     private $companyname;
@@ -79,5 +79,8 @@ class Contractor
         $this->iduser = $iduser;
     }
 
-
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
+    }
 }

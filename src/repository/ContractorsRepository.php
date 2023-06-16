@@ -8,6 +8,36 @@ require_once __DIR__."/../models/Contractor.php";
 
 class ContractorsRepository extends Repository
 {
+    public function getAllContractors(): array
+    {
+        $query = "SELECT * FROM trader.contractors";
+
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute();
+
+        $contractorsData = $stmt->fetchAll();
+        if(!$contractorsData)
+        {
+            return [];
+        }
+
+        $contractors = [];
+        foreach ($contractorsData as $contractorData)
+        {
+            $contractor = new Contractor(
+                $contractorData["idcontractor"],
+                $contractorData["companyname"],
+                $contractorData["nip"],
+                $contractorData["pesel"],
+                $contractorData["idaddress"],
+                $contractorData["iduser"]
+            );
+
+            array_push($contractors, $contractor);
+        }
+        return $contractors;
+    }
+
     public function getContractor(string $companyname): ?Contractor
     {
         $query = "SELECT * FROM trader.contractors WHERE companyname = :companyname";

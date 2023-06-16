@@ -1,6 +1,6 @@
 <?php
 
-class Documentdefinition
+class Documentdefinition implements JsonSerializable
 {
     private $idDocumentdefinition;
     private $name;
@@ -77,5 +77,10 @@ class Documentdefinition
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

@@ -61,7 +61,6 @@ class HeadRow extends Row {
             const imgIconSettingsArrowUp = document.createElement("img")
             divDataGridHeadItem.appendChild(imgIconSettingsArrowUp)
 
-            imgIconSettingsArrowUp.src="./img/svg/arrow-down-black.svg"
             imgIconSettingsArrowUp.classList.add("icon-small")
             imgIconSettingsArrowUp.classList.add("icon-clicable")
             imgIconSettingsArrowUp.classList.add("rotate-180")
@@ -76,7 +75,14 @@ class HeadRow extends Row {
             const imgIconSettingsArrowDown = document.createElement("img")
             divDataGridHeadItem.appendChild(imgIconSettingsArrowDown)
 
-            imgIconSettingsArrowDown.src="./img/svg/arrow-down-black.svg"
+            const imageArrowDownBlack = new Image()
+            imageArrowDownBlack.src = "public/img/svg/arrow-down-black.svg"
+            imageArrowDownBlack.onload = function () {
+                imgIconSettingsArrowUp.src = this.src
+                imgIconSettingsArrowDown.src = this.src
+            }
+
+            // imgIconSettingsArrowDown.src="./img/svg/arrow-down-black.svg"
             imgIconSettingsArrowDown.classList.add("icon-small")
             imgIconSettingsArrowDown.classList.add("icon-clicable")
             imgIconSettingsArrowDown.addEventListener("click", () => {
@@ -142,7 +148,9 @@ class DataRow extends Row {
 
         // Data columns
         let index = 0
-        for(let key of Object.keys(this._dataObject))
+        // for(let key of Object.keys(this._dataObject))
+        const keys = this._headers.map(x => x.fieldName)
+        for(let key of keys)
         {
             if(key === "rowId")
             {

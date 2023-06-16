@@ -40,6 +40,11 @@ class CurrenciesService
         return $currency != null;
     }
 
+    public function getAllCurrencies(): array
+    {
+        return $this->currenciesRepository->getAllCurrencies();
+    }
+
     public function getCurrency(?string $symbol): ?Currency
     {
         if(!$symbol)

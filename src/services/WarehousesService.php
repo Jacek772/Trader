@@ -23,6 +23,11 @@ class WarehousesService
         }
     }
 
+    public function getAllWarehouses(): array
+    {
+        return $this->warehousesRepository->getAllWarehouses();
+    }
+
     public function getWarehouse(string $symbol): ?Warehouse
     {
         return $this->warehousesRepository->getWarehouse($symbol);

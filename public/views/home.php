@@ -76,7 +76,7 @@
         </a>
       </div>
       <div class="navcard color-white">
-        <a class="navcard-a" href="/settings"></a>
+        <a class="navcard-a" href="/settings">
           <div class="navcard-title-container">
             <img src="/public/img/svg/settings.svg" alt="document" class="icon">
             <h2 class="navcard-title">Settings</h2>

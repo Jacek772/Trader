@@ -1,6 +1,6 @@
 <?php
 
-class Role
+class Role implements JsonSerializable
 {
     private $idRole;
     private $name;
@@ -41,5 +41,10 @@ class Role
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function jsonSerialize()
+    {
+        return get_object_vars($this);
     }
 }

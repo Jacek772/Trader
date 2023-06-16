@@ -1,6 +1,7 @@
 
 class FiltersPanel extends HtmlComponent {
     _items = []
+    onChange = (filters) => { }
 
     constructor()
     {
@@ -10,6 +11,9 @@ class FiltersPanel extends HtmlComponent {
 
     addItem = (item) => {
         this._items.push(item)
+        item.onChange = () => {
+            this.onChange(this.getFilters())
+        }
         this._refresh()
     }
 
@@ -17,6 +21,12 @@ class FiltersPanel extends HtmlComponent {
         const filters = []
         for(let item of this._items)
         {
+            const filter = item.getFilters()
+            if(!filter)
+            {
+                continue
+            }
+
             filters.push(item.getFilters())
         }
         return filters
@@ -39,6 +49,7 @@ class FilterPanelItem extends HtmlComponent {
     static types = {
         TEXT: "TEXT",
         SELECT: "SELECT",
+        SELECT_WITH_EMPTY: "SELECT_WITH_EMPTY",
         DATE_PERIOD: "DATE_PERIOD",
     }
 
@@ -47,6 +58,7 @@ class FilterPanelItem extends HtmlComponent {
     _fieldValues = []
     _type
     _optionsData
+    onChange = (fieldValues) => {}
 
     // Niezbędne dla type.SELECT
     // options = { text, value }
@@ -57,7 +69,7 @@ class FilterPanelItem extends HtmlComponent {
         this._fieldNames = fieldNames
         this._type = type
         this._optionsData = optionsData
-        
+
         this._initFilterPanelItem()
     }
 
@@ -66,6 +78,7 @@ class FilterPanelItem extends HtmlComponent {
         switch(this._type)
         {
             case FilterPanelItem.types.SELECT:
+            case FilterPanelItem.types.SELECT_WITH_EMPTY:
                 return this._getFiltersSelect()
             case FilterPanelItem.types.DATE_PERIOD:
                 return this._getFiltersDatePeriod()
@@ -105,6 +118,9 @@ class FilterPanelItem extends HtmlComponent {
             case FilterPanelItem.types.SELECT:
                 this._initInputSelect()
                 break
+            case FilterPanelItem.types.SELECT_WITH_EMPTY:
+                this._initInputSelectWithEmpty()
+                break
             case FilterPanelItem.types.DATE_PERIOD:
                 this._initInputDatePeriod()
                 break
@@ -123,35 +139,44 @@ class FilterPanelItem extends HtmlComponent {
         input.classList.add("input-border")
         input.addEventListener("input", (e) => {
             this._fieldValues = [ e.target.value ]
+            this.onChange(this._fieldValues)
         })
 
         this._fieldValues = [null]
     }
 
-    _initInputSelect = () => {
+    _initInputSelectWithEmpty = () => {
+        this._initInputSelect(true)
+    }
+
+    _initInputSelect = (withEmpty = false) => {
         const select = document.createElement("select")
         this._htmlMain.appendChild(select)
         select.classList.add("input-text")
         select.classList.add("input-border")
         select.addEventListener("input", (e) => {
-            if(!NumberTools.isNumber(e.target.value))
-            {
-                this._fieldValues = [ e.target.value ]
-                return
-            }
-
             if(NumberTools.isInt(e.target.value))
             {
                 this._fieldValues = [ parseInt(e.target.value) ]
-                return
             }
-
-            if(NumberTools.isFloat(e.target.value))
+            else if(NumberTools.isFloat(e.target.value))
             {
                 this._fieldValues = [ parseFloat(e.target.value) ]
-                return
             }
+            else
+            {
+                this._fieldValues = [ e.target.value ]
+            }
+            this.onChange(this._fieldValues)
         })
+
+        if(withEmpty)
+        {
+            const option = document.createElement("option")
+            select.appendChild(option)
+            option.value = ""
+            option.innerText = ""
+        }
 
         for(let optionData of this._optionsData)
         {
@@ -161,13 +186,13 @@ class FilterPanelItem extends HtmlComponent {
             option.innerText = optionData.text
         }
 
-        if(this._optionsData.length > 0)
+        if(withEmpty || !this._optionsData || this._optionsData.length == 0)
         {
-            this._fieldValues = [this._optionsData[0].value]
+            this._fieldValues = [null]
         }
         else
         {
-            this._fieldValues = [null]
+            this._fieldValues = [this._optionsData[0].value]
         }
     }
 
@@ -200,7 +225,8 @@ class FilterPanelItem extends HtmlComponent {
                 e.target.value = inputTo.value
             }
 
-            this._fieldValues[0] = dateFrom
+            this._fieldValues[0] = dateFrom ? this._formatDate(dateFrom) : null
+            this.onChange(this._fieldValues)
         })
 
         inputTo.type = "date"
@@ -225,28 +251,58 @@ class FilterPanelItem extends HtmlComponent {
                 e.target.value = inputFrom.value
             }
 
-            this._fieldValues[1] = e.target.value
+            this._fieldValues[1] = dateTo ? this._formatDate(dateTo) : null
+            this.onChange(this._fieldValues)
         })
 
         this._fieldValues = [null, null]
     }
 
+    _formatDate = (date) => {
+        const dateTimeStringSplited = date.toLocaleString().split(", ")
+        const dateString = dateTimeStringSplited[0]
+        const splitedDateString = dateString.split(".")
+        return `${splitedDateString[2]}-${splitedDateString[1]}-${splitedDateString[0]}`
+    }
+
     _getFiltersText = () => {
+        if(!this._fieldValues[0])
+        {
+            return null
+        }
+
         return { 
             [this._fieldNames[0]]: this._fieldValues[0] 
         }
     }
 
     _getFiltersSelect = () => {
+        if(!this._fieldValues[0])
+        {
+            return null
+        }
+
         return { 
             [this._fieldNames[0]]: this._fieldValues[0] 
         }
     }
 
     _getFiltersDatePeriod = () => {
-        return { 
-            [this._fieldNames[0]]: this._fieldValues[0],
-            [this._fieldNames[1]]: this._fieldValues[1]
+        if(!this._fieldValues[0] && !this._fieldValues[1])
+        {
+            return null
         }
+
+        const filters = {}
+        if(this._fieldValues[0])
+        {
+            filters[this._fieldNames[0]] = this._fieldValues[0]
+        }
+
+        if(this._fieldValues[1])
+        {
+            filters[this._fieldNames[1]] = this._fieldValues[1]
+        }
+        return filters
     }
 }

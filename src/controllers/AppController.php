@@ -43,5 +43,4 @@ class AppController {
         }
         print $output;
     }
-
 }

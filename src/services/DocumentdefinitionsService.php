@@ -19,6 +19,11 @@ class DocumentdefinitionsService
         }
     }
 
+    public function getAllDocumentsdefinitions(): array
+    {
+        return $this->documentdefinitionsRepository->getAllDocumentsdefinitions();
+    }
+
     public function getDocumentdefinition(string $symbol) : ?Documentdefinition
     {
         return $this->documentdefinitionsRepository->getDocumentdefinition($symbol);
