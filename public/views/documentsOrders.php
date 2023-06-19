@@ -1,10 +1,12 @@
 <?php
-session_start();
-if(!$_SESSION["logged"])
-{
-    header('Location: /');
-    die();
-}
+    session_start();
+    if(!$_SESSION["logged"])
+    {
+        header('Location: /');
+        die();
+    }
+
+    $_SESSION["location"] = "/documents/orders";
 ?>
 
 <!DOCTYPE html>
@@ -31,9 +33,11 @@ if(!$_SESSION["logged"])
     <!-- Api -->
     <script src="/public/js/api/Api.js"></script>
     <script src="/public/js/api/ApiDocuments.js"></script>
+    <script src="/public/js/api/ApiContractors.js"></script>
+    <script src="/public/js/api/ApiWarehouses.js"></script>
 
     <script src="/public/js/index.js"></script>
-    <script src="/public/js/documents.js"></script>
+    <script src="/public/js/documentsOrders.js"></script>
     <title>Trader - Documents orders</title>
 </head>
 <body>

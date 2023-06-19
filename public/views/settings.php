@@ -1,10 +1,11 @@
 <?php
-session_start();
-if(!$_SESSION["logged"])
-{
-    header('Location: /');
-    die();
-}
+    session_start();
+    if(!$_SESSION["logged"])
+    {
+        header('Location: /');
+        die();
+    }
+    $_SESSION["location"] = "/settings";
 ?>
 
 <!DOCTYPE html>

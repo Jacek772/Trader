@@ -193,7 +193,14 @@
     background: #c70000;;
 }
 
+.button-dark {
+    background-color: #2E2E2E;
+    color: #FFF;
+}
 
+.button-dark:hover {
+    background-color: #212121;
+}
 
 /* alert */
 .alert{

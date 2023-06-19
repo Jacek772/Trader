@@ -5,6 +5,8 @@
         header('Location: /');
         die();
     }
+
+    $_SESSION["location"] = "/home";
 ?>
 
 <!doctype html>

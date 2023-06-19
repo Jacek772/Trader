@@ -1,0 +1,45 @@
+.modal-container {
+    z-index: 100;
+    width: 400px;
+    border: 2px solid;
+    box-shadow: 0px 11px 15px -7px rgba(0,0,0,0.2), 0px 24px 38px 3px rgba(0,0,0,0.14), 0px 9px 46px 8px rgba(0,0,0,0.12);
+    padding: 48px;
+    position: relative;
+}
+
+.modal-head {
+    margin-bottom: 20px;
+}
+
+.modal-head-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.modal-body-text {
+    font-size: 1rem;
+}
+
+.modal-body-buttonscontainer {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-body-buttonscontainer button {
+    margin-left: 10px;
+}
+
+.modal-body-buttonscontainer button:first-child
+{
+    margin: 0;
+}
+
+#iconCloseModal {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}

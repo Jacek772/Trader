@@ -9,20 +9,20 @@ const headers = [
     { text: "Sum brutto", width: "10%", fieldName: "sumBrutto" }
 ]
 
-let modal
 let dataGrid
 let filtersPanel
 
-// DOMContentLoaded
 document.addEventListener("DOMContentLoaded", async () => {
     const documents = await getDocuments()
 
-    // dataGrid = new DataGrid(headers, dataArray)
     dataGrid = new DataGrid(headers, documents)
     filtersPanel = new FiltersPanel()
-
     filtersPanel.onChange = async (filters) => {
-        const query = createDocumentsQuery(filters)
+        let query = { }
+        for(let filter of filters)
+        {
+            query = { ...query, ...filter }
+        }
         const documents = await getDocuments(query)
         dataGrid.setDataArray(documents)
     }
@@ -32,12 +32,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     divDataGridContainer.appendChild(dataGrid.getHtml())
 
     // Filter panel
-    const documentsdefinitionsRes = await ApiDocumentsdefinitions.getAllDocumentsdefinitions()
-    const documentsdefinitions = documentsdefinitionsRes.data.documentsdefinitions.map(x => ({
-        text: x.symbol,
-        value: x.idDocumentdefinition
-    }))
-
     const contractorsRes = await ApiContractors.getAllContractors()
     const contractors = contractorsRes.data.contractors.map(x => ({
         text: x.companyname,
@@ -51,7 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     }))
 
     filtersPanel.addItem(new FilterPanelItem("Period", ["periodFrom", "periodTo"], FilterPanelItem.types.DATE_PERIOD))
-    filtersPanel.addItem(new FilterPanelItem("Definition", ["definition"], FilterPanelItem.types.SELECT_WITH_EMPTY, documentsdefinitions))
     filtersPanel.addItem(new FilterPanelItem("Contractor", ["contractor"], FilterPanelItem.types.SELECT_WITH_EMPTY, contractors))
     filtersPanel.addItem(new FilterPanelItem("Warehouse", ["warehouse"], FilterPanelItem.types.SELECT_WITH_EMPTY, warehouses))
 
@@ -76,65 +69,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btnDelete = document.getElementById("btnDelete")
     btnDelete.addEventListener("click", async () => {
         const idsToDelete = dataGrid.getCheckedData().map(x => x.idDocument)
-
-        if(idsToDelete.length == 0)
-        {
-            modal.setModalType(Modal.modalTypes.WARNING)
-            modal.setModalButtonsType(Modal.modalButtonsType.OK)
-            modal.setTitle("Nie wybrano dokumentu")
-            modal.setText("Nie wybrano dokumentu do usunięcia")
-            modal.show()
-            return
-        }
-
-        modal.setModalType(Modal.modalTypes.WARNING)
-        modal.setModalButtonsType(Modal.modalButtonsType.YESNO)
-        modal.setTitle("Usuwanie dokumentów")
-        modal.setText("Czy na pewno chcesz usunąć wybrane dokumenty ?")
-        modal.setOnAction(async (modalType, modalResult) => {
-            if(!modalResult.result)
-            {
-                return
-            }
-
-            await ApiDocuments.deleteDocuments(idsToDelete)
-
-            const query = createDocumentsQuery(filtersPanel.getFilters())
-            const documents = await getDocuments(query)
-            dataGrid.setDataArray(documents)
-        })
-        modal.show()
+        await ApiDocuments.deleteDocuments(idsToDelete)
     })
-
-    // const dataGridTest = document.getElementById("dataGridTest")
-    // dataGridTest.appendChild(dataGrid.getHtml())
-
-    // Modal
-
-    modal = new Modal()
-    modal.setTitle("Title")
-    modal.setText("Text modala")
-    modal.setModalType(Modal.modalTypes.INFO)
-    modal.setModalButtonsType(Modal.modalButtonsType.OK)
-    modal.setBlockClosing(false)
-    modal.setOnAction((result) => {
-        console.log(result)
-    })
-
-    document.body.appendChild(modal.getHtml())
-    // modal.show()
 })
 
-const createDocumentsQuery = (filters) => {
-    let query = { }
-    for(let filter of filters)
-    {
-        query = { ...query, ...filter }
-    }
-    return query
-}
-
-const getDocuments = async (query = {}) => {
+async function getDocuments(query = {}) {
     const documentsRes = await ApiDocuments.getDocuments(query)
     return documentsRes.data.documents.map(x => ({
         idDocument: x.idDocument,
@@ -148,6 +87,3 @@ const getDocuments = async (query = {}) => {
         sumBrutto: 0
     }))
 }
-
-
-

@@ -76,7 +76,7 @@ class HeadRow extends Row {
             divDataGridHeadItem.appendChild(imgIconSettingsArrowDown)
 
             const imageArrowDownBlack = new Image()
-            imageArrowDownBlack.src = "public/img/svg/arrow-down-black.svg"
+            imageArrowDownBlack.src = "/public/img/svg/arrow-down-black.svg"
             imageArrowDownBlack.onload = function () {
                 imgIconSettingsArrowUp.src = this.src
                 imgIconSettingsArrowDown.src = this.src

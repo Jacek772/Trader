@@ -5,6 +5,8 @@
         header('Location: /');
         die();
     }
+
+    $_SESSION["location"] = "/documents";
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +20,7 @@
     <link rel="stylesheet" href="/public/css/style.css">
     <link rel="stylesheet" href="/public/css/documents.css">
     <link rel="stylesheet" href="/public/css/editform.css">
+    <link rel="stylesheet" href="/public/css/modal.css">
 
     <!-- JS -->
     <script src="/public/js/numberTools.js"></script>
@@ -27,6 +30,7 @@
     <script src="/public/js/components/dataGrid/rows.js"></script>
     <script src="/public/js/components/dataGrid/dataGrid.js"></script>
     <script src="/public/js/components/filtersPanel.js"></script>
+    <script src="/public/js/components/modal/modal.js"></script>
 
     <!-- Api -->
     <script src="/public/js/api/Api.js"></script>
