@@ -25,14 +25,25 @@ class AddressesService
         return $this->addressesRepository->getFirstAddresses($limit);
     }
 
+    public function getAddressById(int $id): ?Address
+    {
+        return $this->addressesRepository->getAddressById($id);
+    }
+
     public function getAddress(string $city, string $street, string $homenumber, string $localnumber, string $zipcode): ?Address
     {
         return $this->addressesRepository->getAddress($city, $street, $homenumber, $localnumber, $zipcode);
     }
 
-    public function createAddress(Address $address) : void
+    public function createAddress(Address $address) : int
     {
-        $this->addressesRepository->createAddress($address);
+        return $this->addressesRepository->createAddress($address);
+    }
+
+    // $addressData = []
+    public function updateAddress(int $idaddress, array $addressData): void
+    {
+        $this->addressesRepository->updateAddress($idaddress, $addressData);
     }
 
     public function existsAddress(Address $address) : bool

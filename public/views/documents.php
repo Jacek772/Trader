@@ -91,7 +91,6 @@
 <!--    <div class="overlay">-->
       <div class="editform-container">
         <div class="editform-head">
-          <input type="text" id="inputText" />
           <script>
             const inputText = document.getElementById("inputText")
             inputText.addEventListener("input", (e) => {

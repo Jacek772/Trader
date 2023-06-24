@@ -23,6 +23,11 @@ class CommodityService
         }
     }
 
+    public function getAllCommodities(): array
+    {
+        return $this->commodityRepository->getAllCommodities();
+    }
+
     public function getCommodity(string $symbol): ?Commodity
     {
         return $this->commodityRepository->getCommodity($symbol);
@@ -31,6 +36,16 @@ class CommodityService
     public function createCommodity(Commodity $commodity): void
     {
         $this->commodityRepository->createCommodity($commodity);
+    }
+
+    public function deleteCommodities($ids): void
+    {
+        $this->commodityRepository->deleteCommodities($ids);
+    }
+
+    public function updateCommodity(int $idcommodity, array $commodityData): void
+    {
+        $this->commodityRepository->updateCommodity($idcommodity, $commodityData);
     }
 
     public function existsCommodity(string $symbol): bool

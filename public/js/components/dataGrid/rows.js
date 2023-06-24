@@ -113,8 +113,9 @@ class DataRow extends Row {
     _width
     _visible = true
 
-    _onChecked
-    _onClick
+    _onChecked = () => { }
+    _onClick = () => { }
+    _onDoubleClick = () => { }
 
     constructor(headers, dataObject,
         onChecked = (checked) => {},
@@ -123,8 +124,8 @@ class DataRow extends Row {
         super()
         this._headers = headers
         this._dataObject = dataObject
-        this._onChecked = onChecked
-        this._onClick = onClick
+        // this._onChecked = onChecked
+        // this._onClick = onClick
         this.initDataRow()
     }
 
@@ -134,8 +135,22 @@ class DataRow extends Row {
         this._htmlMain.appendChild(tdCheckbox)
         // tdCheckbox.style.width = "50px";
 
-        this._htmlMain.addEventListener("click", () => {
+        this._htmlMain.addEventListener("click", e => {
+            if(e.target.type == "checkbox")
+            {
+                return
+            }
+
             this._onClick(this)
+        })
+
+        this._htmlMain.addEventListener("dblclick", e => {
+            if(e.target.type == "checkbox")
+            {
+                return
+            }
+
+            this._onDoubleClick(this)
         })
 
         this._inputCheckbox = document.createElement("input")
@@ -148,7 +163,7 @@ class DataRow extends Row {
 
         // Data columns
         let index = 0
-        // for(let key of Object.keys(this._dataObject))
+
         const keys = this._headers.map(x => x.fieldName)
         for(let key of keys)
         {
@@ -179,6 +194,21 @@ class DataRow extends Row {
         this._checked = checked
         this._inputCheckbox.checked = checked
         this._onChecked(this)
+    }
+
+    setOnChecked = (onChecked) => {
+        this._onChecked = onChecked
+    }
+
+    setOnDoubleClick = (onDoubleClick) => {
+        this._onDoubleClick = onDoubleClick
+    }
+    setOnClick = (onClick) => {
+        this._onClick = onClick
+    }
+
+    getDataObject = () => {
+        return { ...this._dataObject }
     }
 
     getHtml = () =>

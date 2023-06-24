@@ -62,6 +62,9 @@ Routing::get("api/warehouses", "all", "WarehousesController");
 
 // ContractorsController
 Routing::get("api/contractors", "all", "ContractorsController");
+Routing::post("api/contractors", "create", "ContractorsController");
+Routing::post("api/contractors/delete", "remove", "ContractorsController");
+Routing::post("api/contractors/update", "update", "ContractorsController");
 
 // CurrenciesController
 Routing::get("api/currencies", "all", "CurrenciesController");
@@ -69,6 +72,16 @@ Routing::get("api/currencies", "all", "CurrenciesController");
 // DocumentsdefinitionsController
 Routing::get("api/documentsdefinitions", "all", "DocumentsdefinitionsController");
 
+// CommoditiesController
+Routing::get("api/commodities", "all", "CommoditiesController");
+Routing::post("api/commodities", "create", "CommoditiesController");
+Routing::post("api/commodities/delete", "remove", "CommoditiesController");
+Routing::post("api/commodities/update", "update", "CommoditiesController");
+
+// UnitsController
+Routing::get("api/units", "all", "UnitsController");
+
+// VatratesController
+Routing::get("api/vatrates", "all", "VatratesController");
+
 Routing::run($path);
-
-

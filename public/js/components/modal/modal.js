@@ -32,8 +32,9 @@ class Modal extends HtmlComponent {
     _buttonsType
     _title
     _text
-    _blockClosing
+    _blockClosing = false
     _divModalContainer
+    _divModalBody
     _h1ModalHeadTitle
     _pModalBodyText
     _divModalBodyButtonscontainer
@@ -59,7 +60,7 @@ class Modal extends HtmlComponent {
         divOverlay.appendChild(this._divModalContainer)
         this._divModalContainer.className = "modal-container"
         this._divModalContainer.style.backgroundColor = this._getBackgroundColor()
-        this._divModalContainer.style.borderColor =this._getBorderColor()
+        this._divModalContainer.style.borderColor = this._getBorderColor()
 
         const imgIconCloseModal = document.createElement("img")
         this._divModalContainer.appendChild(imgIconCloseModal)
@@ -79,15 +80,19 @@ class Modal extends HtmlComponent {
         this._h1ModalHeadTitle.className = "modal-head-title"
         this._h1ModalHeadTitle.innerText = this._title
 
-        const divModalBody = document.createElement("div")
-        this._divModalContainer.appendChild(divModalBody)
-        divModalBody.className = "modal-body"
+        this._divModalBody = document.createElement("div")
+        this._divModalContainer.appendChild(this._divModalBody)
+        this._divModalBody.className = "modal-body"
 
         this._pModalBodyText = document.createElement("p")
-        divModalBody.appendChild(this._pModalBodyText)
+        this._divModalBody.appendChild(this._pModalBodyText)
         this._pModalBodyText.innerText = this._text
 
-        divModalBody.appendChild(this._getButtons())
+        this._divModalBodyButtonscontainer = document.createElement("div")
+        this._divModalBody.appendChild(this._divModalBodyButtonscontainer)
+        this._divModalBodyButtonscontainer.className = "modal-body-buttonscontainer"
+
+        this._initButtons()
     }
 
     _getBackgroundColor = () => {
@@ -118,9 +123,8 @@ class Modal extends HtmlComponent {
         }
     }
 
-    _getButtons = () => {
-        this._divModalBodyButtonscontainer = document.createElement("div")
-        this._divModalBodyButtonscontainer.className = "modal-body-buttonscontainer"
+    _initButtons = () => {
+        this._divModalBodyButtonscontainer.innerHTML = ""
 
         switch (this._buttonsType)
         {
@@ -179,6 +183,17 @@ class Modal extends HtmlComponent {
         this.close()
     }
 
+    clear = () => {
+        this._onAction = () => { }
+        this._onClose = () => { }
+
+        this._text = ""
+        this._title = ""
+        this._blockClosing = false
+        this._type = Modal.modalTypes.INFO
+        this._buttonsType = Modal.modalButtonsType.EMPTY
+    }
+
     show = () => {
         this._htmlMain.style.display = ""
     }
@@ -205,8 +220,7 @@ class Modal extends HtmlComponent {
 
     setModalButtonsType = (buttonsType) => {
         this._buttonsType = buttonsType
-        this._divModalBodyButtonscontainer.innerHTML = ""
-        this._divModalBodyButtonscontainer.appendChild(this._getButtons())
+        this._initButtons()
     }
     setBlockClosing = (blockClosing) => {
         this._blockClosing = blockClosing

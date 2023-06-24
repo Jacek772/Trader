@@ -7,22 +7,17 @@ class DataGrid extends HtmlComponent {
     _headRow
     _dataRows = []
 
-    _onClick = (row) => {}
-    _onChecked = (row) => {}
+    _onRowClick = (dataObject) => {}
+    _onRowDoubleClick = (dataObject) => {}
+    _onRowChecked = (dataObject) => {}
 
     // headers = [ { text, width } ]
     // dataArray = [ { ... } ]
-    constructor(headers, dataArray = [],
-        onClick = (row) => {},
-        onChecked = (row) => {})
+    constructor(headers, dataArray = [])
     {
         super()
         this._headers = headers
         this._dataArray = this.prepareDataArray(dataArray)
-
-        this._onClick = onClick
-        this._onChecked = onChecked
-
         this._init()
     }
 
@@ -92,11 +87,11 @@ class DataGrid extends HtmlComponent {
         this._dataRows = []
         for(let dataObject of this._dataArray)
         {
-            const dataRow = new DataRow(this._headers, 
-                dataObject,
-                this.onCheckedDataRow,
-                this._onClick)
-            dataRow._dataObject
+            const dataRow = new DataRow(this._headers, dataObject)
+            dataRow.setOnChecked(this._onCheckedDataRow)
+            dataRow.setOnDoubleClick(this._onRowDoubleClick)
+            dataRow.setOnClick(this._onRowClick)
+
             this._dataRows.push(dataRow)
             tbody.appendChild(dataRow.getHtml())
         }
@@ -107,7 +102,7 @@ class DataGrid extends HtmlComponent {
         this._createDataGridBody()
     }
     
-    onCheckedDataRow = (row) => {
+    _onCheckedDataRow = (row) => {
         if(this._dataRows.every(x => x._checked))
         {
             this._headRow.setCheckedState(true, false)
@@ -117,7 +112,7 @@ class DataGrid extends HtmlComponent {
             this._headRow.setCheckedState(false, false)
         }
 
-        this._onChecked(row)
+        this._onRowChecked(row)
     }
 
     // direction = "asc", "desc"
@@ -176,5 +171,29 @@ class DataGrid extends HtmlComponent {
         return this._dataRows
             .filter(x => x._checked)
             .map(x => x._dataObject)
+    }
+
+    setOnlyRowChecked = (dataRow) => {
+        this._dataRows.forEach(x => x.setCheckedState(false))
+        dataRow.setCheckedState(true)
+    }
+
+    setOnRowClick = (onClick) => {
+        this._onRowClick = onClick
+        for(let dataRow of this._dataRows)
+        {
+            dataRow.setOnClick(this._onRowClick)
+        }
+    }
+
+    setOnRowDoubleClick = (onRowDoubleClick) => {
+        this._onRowDoubleClick = onRowDoubleClick
+        for(let dataRow of this._dataRows){
+            dataRow.setOnDoubleClick(this._onRowDoubleClick)
+        }
+    }
+
+    setOnChecked = (onChecked) => {
+        this._onChecked = onChecked
     }
 }

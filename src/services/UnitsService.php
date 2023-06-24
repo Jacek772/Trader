@@ -43,4 +43,9 @@ class UnitsService
     {
         return $this->unitsRepository->getUnit($symbol);
     }
+
+    public function getAllUnits(): array
+    {
+        return $this->unitsRepository->getAllUnits();
+    }
 }

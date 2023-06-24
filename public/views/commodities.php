@@ -18,8 +18,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="/public/css/zero.css">
     <link rel="stylesheet" href="/public/css/style.css">
-    <link rel="stylesheet" href="/public/css/documents.css">
     <link rel="stylesheet" href="/public/css/editform.css">
+    <link rel="stylesheet" href="/public/css/modal.css">
 
     <!-- JS -->
     <script src="/public/js/numberTools.js"></script>
@@ -29,13 +29,17 @@
     <script src="/public/js/components/dataGrid/rows.js"></script>
     <script src="/public/js/components/dataGrid/dataGrid.js"></script>
     <script src="/public/js/components/filtersPanel.js"></script>
+    <script src="/public/js/components/dataForm/dataForm.js"></script>
+    <script src="/public/js/components/modal/modal.js"></script>
 
     <!-- Api -->
     <script src="/public/js/api/Api.js"></script>
-    <script src="/public/js/api/ApiDocuments.js"></script>
+    <script src="/public/js/api/ApiCommodities.js"></script>
+    <script src="/public/js/api/ApiVatrates.js"></script>
+    <script src="/public/js/api/ApiUnits.js"></script>
 
     <script src="/public/js/index.js"></script>
-    <script src="/public/js/documents.js"></script>
+    <script src="/public/js/commodities.js"></script>
     <title>Trader - Contractors</title>
 </head>
 <body>
@@ -71,6 +75,9 @@
                 </div>
                 <div class="action-buttons-item">
                     <button id="btnDelete" class="button button-danger">Delete</button>
+                </div>
+                <div class="action-buttons-item">
+                    <button id="btnOpenForm" class="button button-dark">Open</button>
                 </div>
             </div>
 

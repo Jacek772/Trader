@@ -39,6 +39,11 @@ class VatratesService
         return $vatrate != null;
     }
 
+    public function getAllVatrates(): array
+    {
+        return $this->vatratesRepository->getAllVatrates();
+    }
+
     public function getVatrate(float $percent): ?Vatrate
     {
         return $this->vatratesRepository->getVatrate($percent);

@@ -28,6 +28,11 @@ class ContractorsService
         $this->contractorsRepository->createContractor($contractor);
     }
 
+    public function updateContractor(int $idcontractor,  array $contractorData): void
+    {
+        $this->contractorsRepository->updateContractor($idcontractor, $contractorData);
+    }
+
     public function existsContractor(?string $companyname): bool
     {
         if(!$companyname)
@@ -51,5 +56,10 @@ class ContractorsService
             return null;
         }
         return $this->contractorsRepository->getContractor($companyname);
+    }
+
+    public function deleteContractors(array $ids): void
+    {
+        $this->contractorsRepository->deleteContractors($ids);
     }
 }

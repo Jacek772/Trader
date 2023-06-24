@@ -9,6 +9,8 @@ class Contractor implements JsonSerializable
     private $idaddress;
     private $iduser;
 
+    private $address;
+
     public function __construct(int $idcontractor, string $companyname, ?string $nip, ?string $pesel, int $idaddress, ?int $iduser)
     {
         $this->idcontractor = $idcontractor;
@@ -77,6 +79,16 @@ class Contractor implements JsonSerializable
     public function setIduser(?int $iduser): void
     {
         $this->iduser = $iduser;
+    }
+
+    public function getAddress() : ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): void
+    {
+        $this->address = $address;
     }
 
     public function jsonSerialize()

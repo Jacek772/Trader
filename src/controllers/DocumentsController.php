@@ -31,7 +31,7 @@ class DocumentsController extends AppController
     public function delete()
     {
         $idsStr = $_POST["ids"];
-        $ids = $str_arr = preg_split ("/\,/", $idsStr);
+        $ids = preg_split ("/\,/", $idsStr);
         $this->documentsService->deleteDocuments($ids);
     }
 }

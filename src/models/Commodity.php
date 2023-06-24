@@ -9,6 +9,9 @@ class Commodity implements JsonSerializable
     private $idunit;
     private $idvatrate;
 
+    private $unit;
+    private$vatrate;
+
     public function __construct(int $idcommodity, string $symbol, string $name, string $description, int $idunit, int $idvatrate)
     {
         $this->idcommodity = $idcommodity;
@@ -77,6 +80,26 @@ class Commodity implements JsonSerializable
     public function setIdvatrate(int $idvatrate): void
     {
         $this->idvatrate = $idvatrate;
+    }
+
+    public function getUnit(): Unit
+    {
+        return $this->unit;
+    }
+
+    public function setUnit(Unit $unit): void
+    {
+        $this->unit = $unit;
+    }
+
+    public function getVatrate(): Vatrate
+    {
+        return $this->vatrate;
+    }
+
+    public function setVatrate(Vatrate $vatrate): void
+    {
+        $this->vatrate = $vatrate;
     }
 
     public function jsonSerialize()

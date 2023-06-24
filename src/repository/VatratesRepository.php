@@ -7,6 +7,33 @@ require_once __DIR__."/../models/Vatrate.php";
 
 class VatratesRepository extends Repository
 {
+    public function getAllVatrates(): array
+    {
+        $query = "SELECT * FROM trader.vatrates";
+
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute();
+
+        $vatratesData = $stmt->fetchAll();
+        if(!$vatratesData)
+        {
+            return [];
+        }
+
+        $vatrates = [];
+        foreach ($vatratesData as $vatrateData)
+        {
+            $vatrate = new Vatrate(
+                $vatrateData["idvatrate"],
+                $vatrateData["percent"]
+            );
+
+            array_push($vatrates, $vatrate);
+        }
+
+        return $vatrates;
+    }
+
     public function getVatrate(float $percent): ?Vatrate
     {
         $query = "SELECT * FROM trader.vatrates WHERE percent = :percent LIMIT 1";

@@ -1,22 +1,23 @@
-class ApiContractors extends Api{
-    static baseRoute = "contractors"
+class ApiCommodities extends Api
+{
+    static baseRoute = "commodities"
 
-    static async getAllContractors()
+    static async getCommodities(query)
     {
-        return await this.get(`${this.baseUrl}/${this.baseRoute}`)
+        return await this.get(`${this.baseUrl}/${this.baseRoute}`, query)
     }
 
-    static async createContractor(data)
+    static async createCommodity(data)
     {
         return await this.post(`${this.baseUrl}/${this.baseRoute}`, { ...data  })
     }
 
-    static async updateContractor(data)
+    static async updateCommodity(data)
     {
         return await this.post(`${this.baseUrl}/${this.baseRoute}/update`, { ...data  })
     }
 
-    static async deleteContractors(ids)
+    static async deleteCommodities(ids)
     {
         return await this.post(`${this.baseUrl}/${this.baseRoute}/delete`, { ids })
     }
