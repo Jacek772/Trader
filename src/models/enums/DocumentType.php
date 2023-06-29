@@ -1,8 +1,8 @@
 <?php
 
 class DocumentType {
-    const OFFER = 0;
-    const WAREHOUSE = 1;
+    const OFFER = 1;
     const SALE = 2;
-    const PURCHASE = 3;
+    const WAREHOUSE = 3;
+    const ORDER = 4;
 }

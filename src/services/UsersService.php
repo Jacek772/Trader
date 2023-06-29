@@ -38,6 +38,21 @@ class UsersService
         return $user != null;
     }
 
+    public function getAllUsers(): array
+    {
+        return $this->userRepository->getAllUsers();
+    }
+
+    public function getUsers(?int $idrole = null): array
+    {
+        return $this->userRepository->getUsers($idrole);
+    }
+
+    public function getUserById(int $iduser): ?User
+    {
+        return $this->userRepository->getUserById($iduser);
+    }
+
     public function getUser(?string $login): ?User
     {
         if(!$login)
@@ -45,5 +60,20 @@ class UsersService
             return null;
         }
         return $this->userRepository->getUser($login);
+    }
+
+    public function updateUser(int $iduser, array $userData): void
+    {
+        if(isset($userData["password"]) && $userData["password"])
+        {
+            $userData["password"] = password_hash($userData["password"], PASSWORD_BCRYPT);
+        }
+
+        $this->userRepository->updateUser($iduser, $userData);
+    }
+
+    public function deleteUsers(array $ids): void
+    {
+        $this->userRepository->deleteUsers($ids);
     }
 }

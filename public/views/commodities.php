@@ -7,6 +7,13 @@
     }
 
     $_SESSION["location"] = "/commodities";
+
+    $roleName = $_SESSION["user"]->getRole()->getName();
+    if($roleName != "Administrator" && $roleName != "Trader")
+    {
+        header('Location: /');
+        die();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +36,7 @@
     <script src="/public/js/components/dataGrid/rows.js"></script>
     <script src="/public/js/components/dataGrid/dataGrid.js"></script>
     <script src="/public/js/components/filtersPanel.js"></script>
+    <script src="/public/js/components/dataForm/dataFormField.js"></script>
     <script src="/public/js/components/dataForm/dataForm.js"></script>
     <script src="/public/js/components/modal/modal.js"></script>
 
@@ -38,9 +46,8 @@
     <script src="/public/js/api/ApiVatrates.js"></script>
     <script src="/public/js/api/ApiUnits.js"></script>
 
-    <script src="/public/js/index.js"></script>
     <script src="/public/js/commodities.js"></script>
-    <title>Trader - Contractors</title>
+    <title>Trader - Commodities</title>
 </head>
 <body>
 <div class="container">

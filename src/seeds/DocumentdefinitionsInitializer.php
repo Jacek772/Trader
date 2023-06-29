@@ -28,21 +28,28 @@ class DocumentdefinitionsInitializer implements IInitializer
             "symbol" => "WZ",
             "direction" => DocumentDirection::EXPEDITURE,
             "type" => DocumentType::WAREHOUSE,
-            "description" => "",
+            "description" => "WZ document",
         ],
         [
             "name" => "Przyjęcie zewnętrzne",
             "symbol" => "PZ",
             "direction" => DocumentDirection::INCOME,
             "type" => DocumentType::WAREHOUSE,
-            "description" => "",
+            "description" => "PZ document",
         ],
         [
             "name" => "Faktura VAT",
             "symbol" => "FV",
             "direction" => DocumentDirection::NO,
             "type" => DocumentType::SALE,
-            "description" => "",
+            "description" => "FV document",
+        ],
+        [
+            "name" => "Zamówienie odbiorcy",
+            "symbol" => "ZO",
+            "direction" => DocumentDirection::NO,
+            "type" => DocumentType::ORDER,
+            "description" => "ZO document",
         ],
     ];
 

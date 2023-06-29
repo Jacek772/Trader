@@ -5,24 +5,40 @@ require_once __DIR__."/../models/User.php";
 
 // Repositories
 require_once __DIR__."/../repository/DocumentsRepository.php";
+require_once __DIR__."/../repository/DocumentpositionsRepository.php";
 
 class DocumentsService
 {
     private $documentsRepository;
+    private $documentpositionsRepository;
 
     public function __construct()
     {
         $this->documentsRepository = new DocumentsRepository();
+        $this->documentpositionsRepository = new DocumentpositionsRepository();
     }
 
     public function getAllDocuments() : array
     {
-        return $this->documentsRepository->getAllDocuments();
+        $documents = $this->documentsRepository->getAllDocuments();
+        foreach ($documents as $document)
+        {
+            $positions = $this->documentpositionsRepository->getDocumentpositionsByIdDocument($document->getIdDocument());
+            $document->setPositions($positions);
+        }
+        return $documents;
     }
 
-    public function getDocuments(string $periodFrom = null, string $periodTo = null, int $idDefinition = null, int $idContractor = null, int $idWarehouse = null)  : array
+    public function getDocuments(?string $periodFrom = null, ?string $periodTo = null, ?int $idDefinition = null,
+                                 ?int $idContractor = null, ?int $idWarehouse = null, ?int $type = null)  : array
     {
-        return $this->documentsRepository->getDocuments($periodFrom, $periodTo, $idDefinition, $idContractor, $idWarehouse);
+        $documents = $this->documentsRepository->getDocuments($periodFrom, $periodTo, $idDefinition, $idContractor, $idWarehouse, $type);
+        foreach ($documents as $document)
+        {
+            $positions = $this->documentpositionsRepository->getDocumentpositionsByIdDocument($document->getIdDocument());
+            $document->setPositions($positions);
+        }
+        return $documents;
     }
 
     public function createDocumentIfNotExist(Document $document): void
@@ -38,6 +54,11 @@ class DocumentsService
         $this->documentsRepository->createDocument($document);
     }
 
+    public function updateDocument(int $iddocument,  array $documentData): void
+    {
+        $this->documentsRepository->updateDocument($iddocument, $documentData);
+    }
+
     public function existsDocument(?string $number): bool
     {
         if(!$number)
@@ -51,7 +72,10 @@ class DocumentsService
 
     public function getDocument(string $number): ?Document
     {
-        return $this->documentsRepository->getDocument($number);
+        $document = $this->documentsRepository->getDocument($number);
+        $positions = $this->documentpositionsRepository->getDocumentpositionsByIdDocument($document->getIddocument());
+        $document->setPositions($positions);
+        return $document;
     }
 
     public function deleteDocuments(array $ids): void

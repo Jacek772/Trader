@@ -5,6 +5,32 @@ require_once __DIR__."/../models/Role.php";
 
 class RolesRepository extends Repository
 {
+    public function getAllRoles(): array
+    {
+        $query = "SELECT * FROM trader.roles";
+
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute();
+        $rolesData = $stmt->fetchAll();
+        if(!$rolesData)
+        {
+            return [];
+        }
+
+        $roles = [];
+        foreach ($rolesData as $roleData)
+        {
+            $role = new Role(
+                $roleData["idrole"],
+                $roleData["name"],
+                $roleData["description"]
+            );
+
+            array_push($roles, $role);
+        }
+        return $roles;
+    }
+
     public function getRole(string $name): ?Role
     {
         $query = "SELECT * FROM trader.roles WHERE name = :name LIMIT 1";

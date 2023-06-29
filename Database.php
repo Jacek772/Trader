@@ -35,6 +35,4 @@ class Database
             die("Connection faqiled: ".$exception->getMessage());
         }
     }
-
-
 }

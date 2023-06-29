@@ -68,12 +68,71 @@ class DocumentdefinitionsRepository extends Repository
         $description = $documentdefinition->getDescription();
 
         $stmt = $this->databse->connect()->prepare($query);
-        $stmt->bindParam(":name", $name, PDO::PARAM_STR);
         $stmt->bindParam(":symbol", $symbol, PDO::PARAM_STR);
+        $stmt->bindParam(":name", $name, PDO::PARAM_STR);
         $stmt->bindParam(":direction", $direction, PDO::PARAM_INT);
         $stmt->bindParam(":type", $type, PDO::PARAM_INT);
         $stmt->bindParam(":description", $description, PDO::PARAM_STR);
         $stmt->execute();
+    }
 
+    public function updateDocumentdefinition(int $iddocumentdefinition, array $documentdefinitionData)
+    {
+        $columnNames = array();
+        $params = array();
+        $params[":iddocumentdefinition"] = $iddocumentdefinition;
+
+        if(isset($documentdefinitionData["symbol"]))
+        {
+            $params[":symbol"] = $documentdefinitionData["symbol"];
+            array_push($columnNames, "symbol = :symbol");
+        }
+
+        if(isset($documentdefinitionData["name"]))
+        {
+            $params[":name"] = $documentdefinitionData["name"];
+            array_push($columnNames, "name = :name");
+        }
+
+        if(isset($documentdefinitionData["direction"]))
+        {
+            $params[":direction"] = $documentdefinitionData["direction"];
+            array_push($columnNames, "direction = :direction");
+        }
+
+        if(isset($documentdefinitionData["type"]))
+        {
+            $params[":type"] = $documentdefinitionData["type"];
+            array_push($columnNames, "type = :type");
+        }
+
+        if(isset($documentdefinitionData["description"]))
+        {
+            $params[":description"] = $documentdefinitionData["description"];
+            array_push($columnNames, "description = :description");
+        }
+
+        $columnNamesStr = implode(", ", $columnNames);
+        if(count($columnNames) == 0)
+        {
+            return;
+        }
+
+        $query = "UPDATE trader.documentdefinitions SET ".$columnNamesStr." WHERE iddocumentdefinition = :iddocumentdefinition";
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute($params);
+    }
+
+    public function deleteDocumentdefinitions(array $ids): void
+    {
+        if(!$ids || count($ids) == 0)
+        {
+            return;
+        }
+
+        $in  = str_repeat('?,', count($ids) - 1) . '?';
+        $query = "DELETE FROM trader.documentdefinitions WHERE iddocumentdefinition IN ($in)";
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute($ids);
     }
 }

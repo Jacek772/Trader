@@ -7,6 +7,13 @@
     }
 
     $_SESSION["location"] = "/contractors";
+
+    $roleName = $_SESSION["user"]->getRole()->getName();
+    if($roleName != "Administrator" && $roleName != "Trader")
+    {
+        header('Location: /');
+        die();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +36,7 @@
     <script src="/public/js/components/dataGrid/rows.js"></script>
     <script src="/public/js/components/dataGrid/dataGrid.js"></script>
     <script src="/public/js/components/filtersPanel.js"></script>
+    <script src="/public/js/components/dataForm/dataFormField.js"></script>
     <script src="/public/js/components/dataForm/dataForm.js"></script>
     <script src="/public/js/components/modal/modal.js"></script>
 
@@ -36,7 +44,6 @@
     <script src="/public/js/api/Api.js"></script>
     <script src="/public/js/api/ApiContractors.js"></script>
 
-    <script src="/public/js/index.js"></script>
     <script src="/public/js/contractors.js"></script>
     <title>Trader - Contractors</title>
 </head>
@@ -79,7 +86,7 @@
                 </div>
             </div>
 
-            <!-- table -->
+            <!-- data grid -->
             <div id="dataGridContainer" class="data-grid-container">
 
             </div>

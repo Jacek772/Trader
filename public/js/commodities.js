@@ -9,6 +9,7 @@ const headers = [
 let modal
 let dataGrid
 let filtersPanel
+let dataForm
 
 // DOMContentLoaded
 document.addEventListener("DOMContentLoaded", async () => {
@@ -59,32 +60,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     ]
 
-    const dataForm = new DataForm(fields, 70, 70)
-    dataForm.setOnSave(async (formDataObject) => {
-        try
-        {
-            await ApiCommodities.updateCommodity(formDataObject)
-            const commodity = await getAllCommodities()
-            dataGrid.setDataArray(commodity)
-
-            modal.clear()
-            modal.setModalType(Modal.modalTypes.SUCCESS)
-            modal.setModalButtonsType(Modal.modalButtonsType.OK)
-            modal.setTitle("Success")
-            modal.setText("Changes saved successfully!")
-            modal.show()
-        }
-        catch (error)
-        {
-            modal.setModalType(Modal.modalTypes.DANGER)
-            modal.setModalButtonsType(Modal.modalButtonsType.OK)
-            modal.setTitle("Error")
-            modal.setText(error.toString())
-            modal.show()
-        }
-
-        dataForm.close()
-    })
+    dataForm = new DataForm(fields, 70, 70)
+    dataForm.setOnSave(async (formDataObject) => dataFormSaveUpdate(modal, dataForm, formDataObject))
 
     dataForm.setOnClose(() => {
         modal.clear()
@@ -106,7 +83,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Data grid
     //
     dataGrid.setOnChecked((dataRow) => {
-        console.log(dataRow)
     })
 
     dataGrid.setOnRowClick((dataRow) =>{
@@ -115,14 +91,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     dataGrid.setOnRowDoubleClick((dataRow) => {
         const dataObject = dataRow.getDataObject()
-        console.log(dataObject)
 
         dataForm.setDataObject(dataObject)
         dataForm.setTitle(dataObject.name)
+        dataForm.setOnSave(async (formDataObject) => dataFormSaveUpdate(modal, dataForm, formDataObject))
         dataForm.show()
     })
 
+    //
     // Search input
+    //
     const inputSearch = document.getElementById("inputSearch")
     inputSearch.addEventListener("keydown", (e) => {
         if(e.key === "Enter")
@@ -131,10 +109,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     })
 
+    //
     // Action buttons
+    //
     const btnNew = document.getElementById("btnNew")
     btnNew.addEventListener("click", () => {
         dataForm.setDataObject({})
+        dataForm.setOnSave(async (formDataObject) => dataFormSaveCreate(modal, dataForm, formDataObject))
         dataForm.setTitle("???")
         dataForm.show()
     })
@@ -162,10 +143,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return
             }
 
-            await ApiCommodities.deleteCommodities(idsToDelete)
-
-            const commodities = await getAllCommodities()
-            dataGrid.setDataArray(commodities)
+            const res = await ApiCommodities.deleteCommodities(idsToDelete)
+            if(res.ok)
+            {
+                const commodities = await getAllCommodities()
+                dataGrid.setDataArray(commodities)
+            }
+            else
+            {
+                modal.setModalType(Modal.modalTypes.DANGER)
+                modal.setModalButtonsType(Modal.modalButtonsType.OK)
+                modal.setTitle("Delete")
+                modal.setText("Cannot delete this row!")
+                modal.show()
+            }
         })
         modal.show()
     })
@@ -185,6 +176,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         dataForm.setDataObject(checkedData[0])
         dataForm.setTitle(checkedData[0].name)
+        dataForm.setOnSave(async (formDataObject) => dataFormSaveUpdate(modal, dataForm, formDataObject))
         dataForm.show()
     })
 
@@ -198,10 +190,61 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.appendChild(modal.getHtml())
 })
 
+async function dataFormSaveCreate(modal, dataForm, formDataObject) {
+    try
+    {
+        await ApiCommodities.createCommodity(formDataObject)
+        const commodity = await getAllCommodities()
+        dataGrid.setDataArray(commodity)
+
+        modal.clear()
+        modal.setModalType(Modal.modalTypes.SUCCESS)
+        modal.setModalButtonsType(Modal.modalButtonsType.OK)
+        modal.setTitle("Success")
+        modal.setText("Changes saved successfully!")
+        modal.show()
+    }
+    catch (error)
+    {
+        modal.setModalType(Modal.modalTypes.DANGER)
+        modal.setModalButtonsType(Modal.modalButtonsType.OK)
+        modal.setTitle("Error")
+        modal.setText(error.toString())
+        modal.show()
+    }
+
+    dataForm.close()
+}
+
+async function dataFormSaveUpdate(modal, dataForm, formDataObject) {
+    try
+    {
+        await ApiCommodities.updateCommodity(formDataObject)
+        const commodity = await getAllCommodities()
+        dataGrid.setDataArray(commodity)
+
+        modal.clear()
+        modal.setModalType(Modal.modalTypes.SUCCESS)
+        modal.setModalButtonsType(Modal.modalButtonsType.OK)
+        modal.setTitle("Success")
+        modal.setText("Changes saved successfully!")
+        modal.show()
+    }
+    catch (error)
+    {
+        modal.setModalType(Modal.modalTypes.DANGER)
+        modal.setModalButtonsType(Modal.modalButtonsType.OK)
+        modal.setTitle("Error")
+        modal.setText(error.toString())
+        modal.show()
+    }
+
+    dataForm.close()
+}
+
 async function getAllCommodities()
 {
     const commoditiesRes = await ApiCommodities.getCommodities({})
-    console.log(commoditiesRes)
     return commoditiesRes.data.commodities.map(x => ({
         idcommodity: x.idcommodity,
         symbol: x.symbol,

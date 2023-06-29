@@ -11,8 +11,8 @@ require_once __DIR__."/../dtos/DocumentDTO.php";
 
 class DocumentsRepository extends Repository
 {
-    public function getDocuments(string $periodFrom = null, string $periodTo = null,
-                                 int $idDefinition = null, int $idContractor = null, int $idWarehouse = null)  : array
+    public function getDocuments(?string $periodFrom = null, ?string $periodTo = null, ?int $idDefinition = null,
+                                 ?int $idContractor = null, ?int $idWarehouse = null, ?int $type = null)  : array
     {
         $query = "SELECT d.iddocument, d.date d_date, d.number d_number, d.state d_state, d.description d_description,
             dd.iddocumentdefinition, dd.name dd_name, dd.symbol dd_symbol, dd.description dd_description, dd.direction dd_direction, dd.type dd_type,
@@ -58,6 +58,12 @@ class DocumentsRepository extends Repository
             array_push($filters, $idWarehouse);
         }
 
+        if($type)
+        {
+            array_push($queryParts, "dd.type = ?");
+            array_push($filters, $type);
+        }
+
         if(count($filters) > 0)
         {
             $query = $query." WHERE ".join(" AND ", $queryParts);
@@ -65,7 +71,6 @@ class DocumentsRepository extends Repository
 
         $stmt = $this->databse->connect()->prepare($query);
         $stmt->execute($filters);
-
         $documentsData = $stmt->fetchAll();
         if(!$documentsData)
         {
@@ -206,6 +211,59 @@ class DocumentsRepository extends Repository
         return $documents;
     }
 
+    public function updateDocument(int $iddocument,  array $documentData): void
+    {
+        $columnNames = array();
+        $params = array();
+        $params[":iddocument"] = $iddocument;
+
+        if(isset($documentData["idcontractor"]))
+        {
+            $params[":idcontractor"] = $documentData["idcontractor"];
+            array_push($columnNames, "idcontractor = :idcontractor");
+        }
+
+        if(isset($documentData["date"]))
+        {
+            $params[":date"] = $documentData["date"];
+            array_push($columnNames, "date = :date");
+        }
+
+        if(isset($documentData["state"]))
+        {
+            $params[":state"] = $documentData["state"];
+            array_push($columnNames, "state = :state");
+        }
+
+        if(isset($documentData["description"]))
+        {
+            $params[":description"] = $documentData["description"];
+            array_push($columnNames, "description = :description");
+        }
+
+        if(isset($documentData["idwarehouse"]))
+        {
+            $params[":idwarehouse"] = $documentData["idwarehouse"];
+            array_push($columnNames, "idwarehouse = :idwarehouse");
+        }
+
+        if(isset($documentData["idcurrency"]))
+        {
+            $params[":idcurrency"] = $documentData["idcurrency"];
+            array_push($columnNames, "idcurrency = :idcurrency");
+        }
+
+        $columnNamesStr = implode(", ", $columnNames);
+        if(count($columnNames) == 0)
+        {
+            return;
+        }
+
+        $query = "UPDATE trader.documents SET ".$columnNamesStr." WHERE iddocument = :iddocument";
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute($params);
+    }
+
     public function createDocument(Document $document): void
     {
         $query = "INSERT INTO trader.documents (iddocument, date, number, state, description, iddocumentdefinition, idcontractor, idwarehouse, idcurrency)
@@ -217,7 +275,7 @@ class DocumentsRepository extends Repository
             ":number" => $document->getNumber(),
             ":state" => $document->getState(),
             ":description" => $document->getDescription(),
-            ":iddocumentdefinition" => $document->getIdDefinition(),
+            ":iddocumentdefinition" => $document->getIddefinition(),
             ":idcontractor" => $document->getIdContractor(),
             ":idwarehouse" => $document->getIdWarehouse(),
             ":idcurrency" => $document->getIdCurrency(),

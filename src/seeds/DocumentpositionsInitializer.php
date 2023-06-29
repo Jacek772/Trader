@@ -143,7 +143,7 @@ class DocumentpositionsInitializer implements IInitializer
               0,
                 $documentpositionData["quantity"],
                 $documentpositionData["price"],
-                $document->getIdDocument(),
+                $document->getIddocument(),
                 $commodity->getIdcommodity(),
                 $vatrate->getIdvatrate()
             );

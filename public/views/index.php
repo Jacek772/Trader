@@ -17,6 +17,10 @@
     <link rel="stylesheet" href="/public/css/zero.css">
     <link rel="stylesheet" href="/public/css/style.css">
     <link rel="stylesheet" href="/public/css/index.css">
+
+    <!-- JS -->
+    <script src="/public/js/index.js"></script>
+
     <title>Trader - Login</title>
 </head>
 <body>
@@ -32,15 +36,15 @@
             <div class="form-login-container w-75">
                 <h2 class="form-title color-white">Login</h2>
                 <hr class="w-100"/>
-                <form class="w-100" method="POST" action="/api/auth/login">
+                <form id="formLogin" class="w-100" method="POST" action="/api/auth/login">
                     <div class="form-item">
-                        <input name="login" type="text" placeholder="login" class="input-text">
+                        <input id="inputLogin" name="login" type="text" placeholder="login" class="input-text">
                     </div>
                     <div class="form-item">
-                        <input name="password" type="text" placeholder="password" class="input-text">
+                        <input id="inputPassword" name="password" type="password" placeholder="password" class="input-text">
                     </div>
                     <div class="form-item form-item-left">
-                        <input type="checkbox" class="input-checkbox">
+                        <input id="inputRemember" type="checkbox" class="input-checkbox">
                         <label class="input-label color-white">Remember</label>
                     </div>
                         <?php

@@ -36,6 +36,11 @@ class RolesService
         return $role != null;
     }
 
+    public function getAllRoles(): array
+    {
+        return $this->rolesRepository->getAllRoles();
+    }
+
     public function getRole(?string $name): ?Role
     {
         return $this->rolesRepository->getRole($name);

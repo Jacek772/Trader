@@ -8,26 +8,49 @@ const headers = [
     { text: "Rate", width: "10%", fieldName: "rate" },
 ]
 
+let modal
 let dataGrid
 let filtersPanel
 
 // DOMContentLoaded
 document.addEventListener("DOMContentLoaded", async () => {
-    // Filter panel
+    //
+    // Modal
+    //
+    modal = new Modal()
+
+    //
+    // Grid
+    //
+    const exchanges = await getExchanges()
+    dataGrid = new DataGrid(headers, exchanges)
+
+    //
+    // Filters panel
+    //
     filtersPanel = new FiltersPanel()
+    filtersPanel.setOnChange(async (filters) => {
+        const query = createExchangesQuery(filters)
+        const exchanges = await getExchanges(query)
+        dataGrid.setDataArray(exchanges)
+    })
+
+
+    const currenciesRes = await ApiCurrencies.getAllCurrencies()
+    const currencies = currenciesRes.data.currencies.map(x => ({
+        text: x.symbol,
+        value: x.idcurrency
+    }))
+
     filtersPanel.addItem(new FilterPanelItem("Period", ["periodFrom", "periodTo"], FilterPanelItem.types.DATE_PERIOD))
+    filtersPanel.addItem(new FilterPanelItem("Currency", ["idCurrency"], FilterPanelItem.types.SELECT_WITH_EMPTY, currencies))
 
     const divFiltersPanelContainer = document.getElementById("filtersPanelContainer")
     divFiltersPanelContainer.appendChild(filtersPanel.getHtml())
 
-    // Grid
-    const exchanges = await getExchangesAll()
-    dataGrid = new DataGrid(headers, exchanges)
-
-    const divDataGridContainer = document.getElementById("dataGridContainer")
-    divDataGridContainer.appendChild(dataGrid.getHtml())
-
+    //
     // Search input
+    //
     const inputSearch = document.getElementById("inputSearch")
     inputSearch.addEventListener("keydown", (e) => {
         if(e.key === "Enter")
@@ -36,19 +59,49 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     })
 
+    //
     // Action buttons
+    //
     const btnImportExchanges = document.getElementById("btnImportExchanges")
     btnImportExchanges.addEventListener("click", async () => {
+
+        modal.setModalType(Modal.modalTypes.INFO)
+        modal.setModalButtonsType(Modal.modalButtonsType.EMPTY)
+        modal.setTitle("Import of exchange rates")
+        modal.setText("Import of exchange rates. Please wait...")
+        modal.setBlockClosing(true)
+        modal.show()
+
         const days = 7
         await ApiExchanges.importExchanges(days)
-        const exchanges = await getExchangesAll()
+        modal.close()
+
+        const query = createExchangesQuery(filtersPanel.getFilters())
+        const exchanges = await getExchanges(query)
         dataGrid.setDataArray(exchanges)
     })
+
+    //
+    // Apend components to html
+    //
+    const divDataGridContainer = document.getElementById("dataGridContainer")
+    divDataGridContainer.appendChild(dataGrid.getHtml())
+
+    document.body.appendChild(modal.getHtml())
 })
 
-async function getExchangesAll()
+const createExchangesQuery = (filters) => {
+    let query = { }
+    for(let filter of filters)
+    {
+        query = { ...query, ...filter }
+    }
+    return query
+}
+
+async function getExchanges(query = {})
 {
-    const result = await ApiExchanges.getExchangesAll()
+    const result = await ApiExchanges.getExchanges(query)
     return result.data.exchanges.map(x => ({
         tablenumber: x.tablenumber,
         dateofpublication: x.dateofpublication,

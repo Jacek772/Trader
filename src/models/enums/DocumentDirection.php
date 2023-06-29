@@ -1,7 +1,7 @@
 <?php
 
 class DocumentDirection {
-    const NO = 0;
-    const INCOME = 1;
-    const EXPEDITURE = 2;
+    const NO = 1;
+    const INCOME = 2;
+    const EXPEDITURE = 3;
 }

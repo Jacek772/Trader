@@ -18,8 +18,19 @@ class ExchangesController extends AppController
 
     public function all()
     {
-        $data = ["exchanges" => $this->exchangesService->getAllExchanges()];
-        echo json_encode($data, true);
+        try {
+            $periodFrom = $_GET["periodFrom"];
+            $periodTo = $_GET["periodTo"];
+            $idCurrency = $_GET["idCurrency"];
+
+            $data = ["exchanges" => $this->exchangesService->getExchanges($periodFrom, $periodTo, $idCurrency)];
+            echo json_encode($data, true);
+        }
+        catch (Exception $e)
+        {
+            header('HTTP/1.1 500 Internal Server Error');
+            echo $e;
+        }
     }
 
     public function fetchExchangesAndSave()
@@ -31,8 +42,8 @@ class ExchangesController extends AppController
         }
         catch (Exception $e)
         {
-            echo $e;
             header('HTTP/1.1 500 Internal Server Error');
+            echo $e;
         }
     }
 

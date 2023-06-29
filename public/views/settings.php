@@ -24,7 +24,6 @@
     <!-- Api -->
     <script src="/public/js/api/Api.js"></script>
 
-    <script src="/public/js/index.js"></script>
     <title>Trader - settings</title>
 </head>
 <body>
@@ -41,7 +40,12 @@
         ?>
 
         <section class="user-section">
-            <h1>Settings</h1>
+            <div class="user-section-title-container color-darkgray">
+                <h1 class="user-section-title">Settings</h1>
+                <div>
+                    <input type="text" placeholder="Search" class="input-text input-border" id="inputSearch">
+                </div>
+            </div>
         </section>
 </div>
 

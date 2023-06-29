@@ -22,11 +22,6 @@ class AuthController extends AppController
     // POST
     public function login()
     {
-        if(!$this->isPost())
-        {
-            return $this->render("index");
-        }
-
         $login = isset($_POST["login"]) ? $_POST["login"] : null;
         $password = isset($_POST["password"]) ? $_POST["password"] : null;
 

@@ -2,17 +2,19 @@
 
 class User implements JsonSerializable
 {
-    private $idUser;
-    private $idRole;
+    private $iduser;
+    private $idrole;
     private $name;
     private $surname;
     private $login;
     private $password;
 
-    public function __construct(string $idUser, int $idRole, string $name, string $surname, string $login, string $password, bool $enabled = true)
+    private $role;
+
+    public function __construct(string $iduser, int $idrole, string $name, string $surname, string $login, string $password, bool $enabled = true)
     {
-        $this->idUser = $idUser;
-        $this->idRole = $idRole;
+        $this->iduser = $iduser;
+        $this->idrole = $idrole;
         $this->name = $name;
         $this->surname = $surname;
         $this->login = $login;
@@ -22,22 +24,22 @@ class User implements JsonSerializable
 
     public function getIdUser(): string
     {
-        return $this->idUser;
+        return $this->iduser;
     }
 
-    public function setIdUser(string $idUser)
+    public function setIdUser(string $iduser)
     {
-        $this->idUser = $idUser;
+        $this->iduser = $iduser;
     }
 
     public function getIdRole(): int
     {
-        return $this->idRole;
+        return $this->idrole;
     }
 
-    public function setIdRole(int $idRole)
+    public function setIdRole(int $idrole)
     {
-        $this->idRole = $idRole;
+        $this->idrole = $idrole;
     }
 
     public function getName(): string
@@ -88,6 +90,16 @@ class User implements JsonSerializable
     public function setEnabled(bool $enabled)
     {
         $this->enabled = $enabled;
+    }
+
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
+    public function setRole(Role $role): void
+    {
+        $this->role = $role;
     }
 
     public function jsonSerialize()

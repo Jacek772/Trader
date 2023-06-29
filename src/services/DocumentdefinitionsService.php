@@ -44,4 +44,14 @@ class DocumentdefinitionsService
         $documentdefinition = $this->getDocumentdefinition($symbol);
         return $documentdefinition != null;
     }
+
+    public function updateDocumentdefinition(int $iddocumentdefinition, array $documentdefinitionData)
+    {
+        $this->documentdefinitionsRepository->updateDocumentdefinition($iddocumentdefinition, $documentdefinitionData);
+    }
+
+    public function deleteDocumentdefinitions(array $ids): void
+    {
+        $this->documentdefinitionsRepository->deleteDocumentdefinitions($ids);
+    }
 }

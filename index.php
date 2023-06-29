@@ -34,7 +34,7 @@ Routing::get("home", "home", "DefaultController");
 Routing::get("documents", "documents", "DefaultController");
 Routing::get("documents/all", "documentsAll", "DefaultController");
 Routing::get("documents/orders", "documentsOrders", "DefaultController");
-Routing::get("documents/invoices", "documentsInvoices", "DefaultController");
+Routing::get("documents/sale", "documentsInvoices", "DefaultController");
 Routing::get("documents/offers", "documentsOffers", "DefaultController");
 Routing::get("contractors", "contractors", "DefaultController");
 Routing::get("commodities", "commodities", "DefaultController");
@@ -49,9 +49,21 @@ Routing::get("settings/users", "settingsUsers", "DefaultController");
 Routing::post("api/auth/login", "login", "AuthController");
 Routing::post("api/auth/logout", "logout", "AuthController");
 
+// DocumentsdefinitionsController
+Routing::get("api/documentsdefinitions", "all", "DocumentsdefinitionsController");
+Routing::post("api/documentsdefinitions", "create", "DocumentsdefinitionsController");
+Routing::post("api/documentsdefinitions/delete", "remove", "DocumentsdefinitionsController");
+Routing::post("api/documentsdefinitions/update", "update", "DocumentsdefinitionsController");
+
 //DocumentsController
 Routing::get("api/documents", "all", "DocumentsController");
+Routing::post("api/documents", "create", "DocumentsController");
+Routing::post("api/documents/update", "update", "DocumentsController");
 Routing::post("api/documents/delete", "delete", "DocumentsController");
+
+// DocumentspositionsController
+Routing::post("api/documentspositions", "create", "DocumentspositionsController");
+Routing::post("api/documentspositions/delete", "remove", "DocumentspositionsController");
 
 //ExchangesController
 Routing::get("api/exchanges", "all", "ExchangesController");
@@ -69,9 +81,6 @@ Routing::post("api/contractors/update", "update", "ContractorsController");
 // CurrenciesController
 Routing::get("api/currencies", "all", "CurrenciesController");
 
-// DocumentsdefinitionsController
-Routing::get("api/documentsdefinitions", "all", "DocumentsdefinitionsController");
-
 // CommoditiesController
 Routing::get("api/commodities", "all", "CommoditiesController");
 Routing::post("api/commodities", "create", "CommoditiesController");
@@ -83,5 +92,15 @@ Routing::get("api/units", "all", "UnitsController");
 
 // VatratesController
 Routing::get("api/vatrates", "all", "VatratesController");
+
+// UsersController
+Routing::get("api/users", "all", "UsersController");
+Routing::get("api/users/one", "one", "UsersController");
+Routing::post("api/users", "create", "UsersController");
+Routing::post("api/users/delete", "remove", "UsersController");
+Routing::post("api/users/update", "update", "UsersController");
+
+// RolesController
+Routing::get("api/roles", "all", "RolesController");
 
 Routing::run($path);

@@ -2,15 +2,15 @@
 
 class Document implements JsonSerializable
 {
-    private $idDocument;
+    private $iddocument;
     private $date;
     private $number;
     private $state;
     private $description;
-    private $idDefinition;
-    private $idContractor;
-    private $idWarehouse;
-    private $idCurrency;
+    private $iddefinition;
+    private $idcontractor;
+    private $idwarehouse;
+    private $idcurrency;
 
 
     private $definition;
@@ -19,27 +19,32 @@ class Document implements JsonSerializable
     private $warehouse;
     private $positions;
 
-    public function __construct(int $idDocument, string $date, string $number, int $state, string $description, int $idDefinition, int $idContractor, int $idWarehouse, int $idCurrency)
+    private $valueNetto = 0;
+    private $valueVat = 0;
+    private $valueGross = 0;
+
+    public function __construct(int $iddocument, string $date, string $number, int $state, string $description, int $iddefinition, int $idcontractor, int $idwarehouse, int $idcurrency)
     {
-        $this->idDocument = $idDocument;
+        $this->iddocument = $iddocument;
         $this->date = $date;
         $this->number = $number;
         $this->state = $state;
         $this->description = $description;
-        $this->idDefinition = $idDefinition;
-        $this->idContractor = $idContractor;
-        $this->idWarehouse = $idWarehouse;
-        $this->idCurrency = $idCurrency;
+        $this->iddefinition = $iddefinition;
+        $this->idcontractor = $idcontractor;
+        $this->idwarehouse = $idwarehouse;
+        $this->idcurrency = $idcurrency;
+        $this->calculateValues();
     }
 
-    public function getIdDocument(): int
+    public function getIddocument(): int
     {
-        return $this->idDocument;
+        return $this->iddocument;
     }
 
-    public function setIdDocument(int $idDocument): void
+    public function setIdDocument(int $iddocument): void
     {
-        $this->idDocument = $idDocument;
+        $this->iddocument = $iddocument;
     }
 
     public function getDate(): string
@@ -82,44 +87,44 @@ class Document implements JsonSerializable
         $this->description = $description;
     }
 
-    public function getIdDefinition(): int
+    public function getIddefinition(): int
     {
-        return $this->idDefinition;
+        return $this->iddefinition;
     }
 
-    public function setIdDefinition(int $idDefinition): void
+    public function setIddefinition(int $iddefinition): void
     {
-        $this->idDefinition = $idDefinition;
+        $this->iddefinition = $iddefinition;
     }
 
-    public function getIdContractor(): int
+    public function getIdcontractor(): int
     {
-        return $this->idContractor;
+        return $this->idcontractor;
     }
 
-    public function setIdContractor(int $idContractor): void
+    public function setIdcontractor(int $idcontractor): void
     {
-        $this->idContractor = $idContractor;
+        $this->idcontractor = $idcontractor;
     }
 
-    public function getIdWarehouse(): int
+    public function getIdwarehouse(): int
     {
-        return $this->idWarehouse;
+        return $this->idwarehouse;
     }
 
-    public function setIdWarehouse(int $idWarehouse): void
+    public function setIdWarehouse(int $idwarehouse): void
     {
-        $this->idWarehouse = $idWarehouse;
+        $this->idwarehouse = $idwarehouse;
     }
 
-    public function getIdCurrency(): int
+    public function getIdcurrency(): int
     {
-        return $this->idCurrency;
+        return $this->idcurrency;
     }
 
-    public function setIdCurrency(int $idCurrency): void
+    public function setIdcurrency(int $idcurrency): void
     {
-        $this->idCurrency = $idCurrency;
+        $this->idcurrency = $idcurrency;
     }
 
     public function getDefinition(): Documentdefinition
@@ -170,6 +175,43 @@ class Document implements JsonSerializable
     public function setPositions(array $positions): void
     {
         $this->positions = $positions;
+        $this->calculateValues();
+    }
+
+    public function getValueNetto(): float
+    {
+        return $this->valueNetto;
+    }
+
+    public function getValueVat(): float
+    {
+        return $this->valueVat;
+    }
+
+    public function getValueGross(): float
+    {
+        return $this->valueGross;
+    }
+
+    private function calculateValues(): void
+    {
+        $this->valueNetto = 0;
+        $this->valueVat = 0;
+        $this->valueGross = 0;
+
+        if($this->positions)
+        {
+            foreach ($this->positions as $position)
+            {
+                $this->valueNetto += $position->getValueNetto();
+                $this->valueVat += $position->getValueVat();
+                $this->valueGross += $position->getValueGross();
+            }
+
+            $this->valueNetto = round($this->valueNetto, 2);
+            $this->valueVat = round($this->valueVat, 2);
+            $this->valueGross = round($this->valueGross, 2);
+        }
     }
 
     public function jsonSerialize()

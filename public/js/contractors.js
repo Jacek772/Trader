@@ -9,32 +9,32 @@ const fields = [
         caption: "Personal data",
         section: true,
         dataFields: [
-            new DataFormField("company name", "companyname", 150, 400, FilterPanelItem.types.TEXT)
+            new DataFormField("company name", "companyname", 150, 400, DataFormField.types.TEXT)
         ]
     },
     {
         caption: "",
         section: false,
         dataFields: [
-            new DataFormField("pesel", "pesel", 50, 200, FilterPanelItem.types.TEXT),
-            new DataFormField("nip", "nip", 50, 200, FilterPanelItem.types.TEXT)
+            new DataFormField("pesel", "pesel", 50, 200, DataFormField.types.TEXT),
+            new DataFormField("nip", "nip", 50, 200, DataFormField.types.TEXT)
         ]
     },
     {
         caption: "Address",
         section: true,
         dataFields: [
-            new DataFormField("city", "city", 50, 200, FilterPanelItem.types.TEXT),
-            new DataFormField("street", "street", 100, 100, FilterPanelItem.types.TEXT),
-            new DataFormField("zip code", "zipcode", 100, 100, FilterPanelItem.types.TEXT)
+            new DataFormField("city", "city", 50, 200, DataFormField.types.TEXT),
+            new DataFormField("street", "street", 100, 100, DataFormField.types.TEXT),
+            new DataFormField("zip code", "zipcode", 100, 100, DataFormField.types.TEXT)
         ]
     },
     {
         caption: "",
         section: false,
         dataFields: [
-            new DataFormField("home number", "homenumber", 100, 100, FilterPanelItem.types.TEXT),
-            new DataFormField("local number", "localnumber", 100, 100, FilterPanelItem.types.TEXT),
+            new DataFormField("home number", "homenumber", 100, 100, DataFormField.types.TEXT),
+            new DataFormField("local number", "localnumber", 100, 100, DataFormField.types.TEXT),
         ]
     }
 ]
@@ -43,6 +43,7 @@ const fields = [
 let modal
 let dataGrid
 let filtersPanel
+let dataForm
 
 // DOMContentLoaded
 document.addEventListener("DOMContentLoaded", async () => {
@@ -52,41 +53,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal = new Modal()
 
     //
-    // Grid
-    //
-    const contractors = await getAllContractors()
-    dataGrid = new DataGrid(headers, contractors)
-
-    //
     // Data form
     //
-    const dataForm = new DataForm(fields, 70, 70)
-    dataForm.setOnSave(async (formDataObject) => {
-        try
-        {
-            await ApiContractors.updateContractor(formDataObject)
-            const contractors = await getAllContractors()
-            dataGrid.setDataArray(contractors)
-
-            modal.clear()
-            modal.setModalType(Modal.modalTypes.SUCCESS)
-            modal.setModalButtonsType(Modal.modalButtonsType.OK)
-            modal.setTitle("Success")
-            modal.setText("Changes saved successfully!")
-            modal.show()
-        }
-        catch (error)
-        {
-            modal.setModalType(Modal.modalTypes.DANGER)
-            modal.setModalButtonsType(Modal.modalButtonsType.OK)
-            modal.setTitle("Error")
-            modal.setText(error.toString())
-            modal.show()
-        }
-
-        dataForm.close()
-    })
-
+    dataForm = new DataForm(fields, 70, 70)
+    dataForm.setOnSave(async (formDataObject) => dataFormSaveUpdate(modal, dataForm, formDataObject))
     dataForm.setOnClose(() => {
         modal.clear()
         modal.setModalType(Modal.modalTypes.WARNING)
@@ -106,8 +76,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     //
     // Data grid
     //
+    const contractors = await getAllContractors()
+    dataGrid = new DataGrid(headers, contractors)
     dataGrid.setOnChecked((dataRow) => {
-        console.log(dataRow)
+
     })
 
     dataGrid.setOnRowClick((dataRow) =>{
@@ -116,14 +88,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     dataGrid.setOnRowDoubleClick((dataRow) => {
         const dataObject = dataRow.getDataObject()
-        console.log(dataObject)
-
         dataForm.setDataObject(dataObject)
         dataForm.setTitle(dataObject.companyname)
+        dataForm.setOnSave(async (formDataObject) => dataFormSaveUpdate(modal, dataForm, formDataObject))
         dataForm.show()
     })
 
+    //
     // Search input
+    //
     const inputSearch = document.getElementById("inputSearch")
     inputSearch.addEventListener("keydown", (e) => {
         if(e.key === "Enter")
@@ -132,10 +105,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     })
 
+    //
     // Action buttons
+    //
     const btnNew = document.getElementById("btnNew")
     btnNew.addEventListener("click", () => {
         dataForm.setDataObject({})
+        dataForm.setOnSave(async (formDataObject) => dataFormSaveCreate(modal, dataForm, formDataObject))
         dataForm.setTitle("???")
         dataForm.show()
     })
@@ -147,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         {
             modal.setModalType(Modal.modalTypes.WARNING)
             modal.setModalButtonsType(Modal.modalButtonsType.OK)
-            modal.setTitle("Delete contractors")
+            modal.setTitle("Delete")
             modal.setText("No data selected")
             modal.show()
             return
@@ -155,7 +131,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         modal.setModalType(Modal.modalTypes.WARNING)
         modal.setModalButtonsType(Modal.modalButtonsType.YESNO)
-        modal.setTitle("Delete contractors")
+        modal.setTitle("Delete")
         modal.setText("Are you sure you want to delete the selected items ?")
         modal.setOnAction(async (modalType, modalResult) => {
             if(!modalResult.result)
@@ -163,10 +139,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                 return
             }
 
-            await ApiContractors.deleteContractors(idsToDelete)
-
-            const contractors = await getAllContractors()
-            dataGrid.setDataArray(contractors)
+            const res = await ApiContractors.deleteContractors(idsToDelete)
+            if(res.ok)
+            {
+                const contractors = await getAllContractors()
+                dataGrid.setDataArray(contractors)
+            }
+            else
+            {
+                modal.setModalType(Modal.modalTypes.DANGER)
+                modal.setModalButtonsType(Modal.modalButtonsType.OK)
+                modal.setTitle("Delete")
+                modal.setText("Cannot delete this row!")
+                modal.show()
+            }
         })
         modal.show()
     })
@@ -178,14 +164,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         {
             modal.setModalType(Modal.modalTypes.WARNING)
             modal.setModalButtonsType(Modal.modalButtonsType.OK)
-            modal.setTitle("Nie wybrano kontrahenta")
-            modal.setText("Nie wybrano kontrahenta")
+            modal.setTitle("Cannot select row")
+            modal.setText("Cannot select row")
             modal.show()
             return
         }
 
         dataForm.setDataObject(checkedData[0])
         dataForm.setTitle(checkedData[0].companyname)
+        dataForm.setOnSave(async (formDataObject) => dataFormSaveUpdate(modal, dataForm, formDataObject))
         dataForm.show()
     })
 
@@ -198,6 +185,58 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.body.appendChild(dataForm.getHtml())
     document.body.appendChild(modal.getHtml())
 })
+
+async function dataFormSaveCreate(modal, dataForm, formDataObject) {
+    try
+    {
+        await ApiContractors.createContractor(formDataObject)
+        const commodity = await getAllContractors()
+        dataGrid.setDataArray(commodity)
+
+        modal.clear()
+        modal.setModalType(Modal.modalTypes.SUCCESS)
+        modal.setModalButtonsType(Modal.modalButtonsType.OK)
+        modal.setTitle("Success")
+        modal.setText("Changes saved successfully!")
+        modal.show()
+    }
+    catch (error)
+    {
+        modal.setModalType(Modal.modalTypes.DANGER)
+        modal.setModalButtonsType(Modal.modalButtonsType.OK)
+        modal.setTitle("Error")
+        modal.setText(error.toString())
+        modal.show()
+    }
+
+    dataForm.close()
+}
+
+async function dataFormSaveUpdate(modal, dataForm, formDataObject) {
+    try
+    {
+        await ApiContractors.updateContractor(formDataObject)
+        const commodity = await getAllContractors()
+        dataGrid.setDataArray(commodity)
+
+        modal.clear()
+        modal.setModalType(Modal.modalTypes.SUCCESS)
+        modal.setModalButtonsType(Modal.modalButtonsType.OK)
+        modal.setTitle("Success")
+        modal.setText("Changes saved successfully!")
+        modal.show()
+    }
+    catch (error)
+    {
+        modal.setModalType(Modal.modalTypes.DANGER)
+        modal.setModalButtonsType(Modal.modalButtonsType.OK)
+        modal.setTitle("Error")
+        modal.setText(error.toString())
+        modal.show()
+    }
+
+    dataForm.close()
+}
 
 async function getAllContractors()
 {

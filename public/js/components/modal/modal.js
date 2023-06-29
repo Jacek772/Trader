@@ -38,6 +38,7 @@ class Modal extends HtmlComponent {
     _h1ModalHeadTitle
     _pModalBodyText
     _divModalBodyButtonscontainer
+    _imgIconCloseModal
 
     _onAction = () => { }
     _onClose = () => { }
@@ -62,14 +63,14 @@ class Modal extends HtmlComponent {
         this._divModalContainer.style.backgroundColor = this._getBackgroundColor()
         this._divModalContainer.style.borderColor = this._getBorderColor()
 
-        const imgIconCloseModal = document.createElement("img")
-        this._divModalContainer.appendChild(imgIconCloseModal)
-        imgIconCloseModal.id = "iconCloseModal"
-        imgIconCloseModal.classList.add("icon-small")
-        imgIconCloseModal.classList.add("icon-clicable")
-        imgIconCloseModal.src = "/public/img/svg/close.svg"
+        this._imgIconCloseModal = document.createElement("img")
+        this._divModalContainer.appendChild(this._imgIconCloseModal)
+        this._imgIconCloseModal.id = "iconCloseModal"
+        this._imgIconCloseModal.classList.add("icon-small")
+        this._imgIconCloseModal.classList.add("icon-clicable")
+        this._imgIconCloseModal.src = "/public/img/svg/close.svg"
 
-        imgIconCloseModal.addEventListener("click", this._handleClickX)
+        this._imgIconCloseModal.addEventListener("click", this._handleClickX)
 
         const divModalHead = document.createElement("div")
         this._divModalContainer.appendChild(divModalHead)
@@ -160,6 +161,10 @@ class Modal extends HtmlComponent {
     }
 
     _handleClickX = (e) => {
+        if (this._blockClosing)
+        {
+            return
+        }
         this.close()
     }
 
@@ -223,6 +228,14 @@ class Modal extends HtmlComponent {
         this._initButtons()
     }
     setBlockClosing = (blockClosing) => {
+        if(blockClosing)
+        {
+            this._imgIconCloseModal.style.display = "none"
+        }
+        else
+        {
+            this._imgIconCloseModal.style.display = ""
+        }
         this._blockClosing = blockClosing
     }
 
@@ -232,12 +245,5 @@ class Modal extends HtmlComponent {
 
     setOnClose = (onClose) => {
         this._onClose = onClose
-    }
-
-    reset = () => {
-        this._title = ""
-        this._text = ""
-        this._onAction = () => {}
-        this._onClose = () => {}
     }
 }

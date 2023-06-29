@@ -2,31 +2,66 @@
 
 class Documentdefinition implements JsonSerializable
 {
-    private $idDocumentdefinition;
+    private $iddocumentdefinition;
     private $name;
     private $symbol;
     private $direction;
+    private $directionName;
     private $type;
+    private $typeName;
     private $description;
 
-    public function __construct(int $idDocumentdefinition, string $name, string $symbol, int $direction, int $type, string $description)
+    public function __construct(int $iddocumentdefinition, string $name, string $symbol, int $direction, int $type, string $description)
     {
-        $this->idDocumentdefinition = $idDocumentdefinition;
+        $this->iddocumentdefinition = $iddocumentdefinition;
         $this->name = $name;
         $this->symbol = $symbol;
         $this->direction = $direction;
+        $this->directionName = $this->getDirectionNameValue($direction);
         $this->type = $type;
+        $this->typeName = $this->getTypeNameValue($type);
         $this->description = $description;
     }
 
-    public function getIdDocumentdefinition()
+    private function getDirectionNameValue(?int $direction): string
     {
-        return $this->idDocumentdefinition;
+        switch ($direction)
+        {
+            case 2:
+                return "income";
+            case 3:
+                return "expenditure";
+            case 1:
+            default:
+                return "";
+        }
+        return "";
     }
 
-    public function setIdDocumentdefinition(int $idDocumentdefinition): void
+    private function getTypeNameValue(?int $type): string
     {
-        $this->idDocumentdefinition = $idDocumentdefinition;
+        switch ($type)
+        {
+            case 1:
+                return "offer";
+            case 2:
+                return "sale";
+            case 3:
+                return "warehouse";
+            default:
+                return "";
+        }
+        return "";
+    }
+
+    public function getIddocumentdefinition()
+    {
+        return $this->iddocumentdefinition;
+    }
+
+    public function setIddocumentdefinition(int $iddocumentdefinition): void
+    {
+        $this->iddocumentdefinition = $iddocumentdefinition;
     }
 
     public function getName(): string
@@ -77,6 +112,16 @@ class Documentdefinition implements JsonSerializable
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getDirectionName(): string
+    {
+        return $this->directionName;
+    }
+
+    public function getTypeName(): string
+    {
+        return $this->typeName;
     }
 
     public function jsonSerialize()

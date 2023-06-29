@@ -111,7 +111,7 @@ class DocumentsInitializer implements IInitializer
                 $documentData["number"],
                 $documentData["state"],
                 $documentData["description"],
-                $documentdefinition->getIdDocumentdefinition(),
+                $documentdefinition->getIddocumentdefinition(),
                 $contractor->getIdcontractor(),
                 $warehouse->getIdwarehouse(),
                 $currency->getIdcurrency()

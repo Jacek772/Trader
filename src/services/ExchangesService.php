@@ -91,6 +91,11 @@ class ExchangesService
         return $this->exchangesRepository->getAllExchanges();
     }
 
+    public function getExchanges(string $periodFrom = null, string $periodTo = null, $idCurrency = null): array
+    {
+        return $this->exchangesRepository->getExchanges($periodFrom, $periodTo, $idCurrency);
+    }
+
     public function getExchange(string $date, int $idcurrency): ?Exchange
     {
         return $this->exchangesRepository->getExchange($date, $idcurrency);

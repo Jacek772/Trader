@@ -7,6 +7,13 @@
     }
 
     $_SESSION["location"] = "/exchanges";
+
+    $roleName = $_SESSION["user"]->getRole()->getName();
+    if($roleName != "Administrator" && $roleName != "Trader")
+    {
+        header('Location: /');
+        die();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +27,7 @@
     <link rel="stylesheet" href="/public/css/style.css">
     <link rel="stylesheet" href="/public/css/documents.css">
     <link rel="stylesheet" href="/public/css/editform.css">
+    <link rel="stylesheet" href="/public/css/modal.css">
 
     <!-- JS -->
     <script src="/public/js/numberTools.js"></script>
@@ -29,14 +37,15 @@
     <script src="/public/js/components/dataGrid/rows.js"></script>
     <script src="/public/js/components/dataGrid/dataGrid.js"></script>
     <script src="/public/js/components/filtersPanel.js"></script>
+    <script src="/public/js/components/modal/modal.js"></script>
 
     <!-- Api -->
     <script src="/public/js/api/Api.js"></script>
     <script src="/public/js/api/ApiExchanges.js"></script>
+    <script src="/public/js/api/ApiCurrencies.js"></script>
 
-    <script src="/public/js/index.js"></script>
     <script src="/public/js/exchanges.js"></script>
-    <title>Trader - Documents invoices</title>
+    <title>Trader - Exchanges</title>
 </head>
 <body>
 <div class="container">

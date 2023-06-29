@@ -124,8 +124,6 @@ class DataRow extends Row {
         super()
         this._headers = headers
         this._dataObject = dataObject
-        // this._onChecked = onChecked
-        // this._onClick = onClick
         this.initDataRow()
     }
 
@@ -133,7 +131,6 @@ class DataRow extends Row {
         // Checkbox column
         const tdCheckbox = document.createElement("td")
         this._htmlMain.appendChild(tdCheckbox)
-        // tdCheckbox.style.width = "50px";
 
         this._htmlMain.addEventListener("click", e => {
             if(e.target.type == "checkbox")

@@ -53,6 +53,76 @@ class ExchangesRepository extends Repository
         return $exchanges;
     }
 
+    public function getExchanges(string $periodFrom = null, string $periodTo = null, $idCurrency = null): array
+    {
+        $query = "SELECT e.idexchange e_idexchange, e.dateofpublication e_dateofpublication, e.announcementdate e_announcementdate,
+                   e.tablenumber e_tablenumber, e.factor e_factor, e.rate e_rate,
+                   c.idcurrency c_idcurrency, c.symbol c_symbol, c.name c_name
+                    FROM trader.exchanges e
+                    INNER JOIN trader.currencies c ON c.idcurrency = e.idcurrency";
+
+        $queryParts = [];
+        $filters = [];
+
+        if($periodFrom)
+        {
+            array_push($queryParts, "e.announcementdate >= ?");
+            array_push($filters, $periodFrom);
+        }
+
+        if($periodTo)
+        {
+            array_push($queryParts, "e.announcementdate <= ?");
+            array_push($filters, $periodTo);
+        }
+
+        if($idCurrency)
+        {
+            array_push($queryParts, "c.idcurrency = ?");
+            array_push($filters, $idCurrency);
+        }
+
+        if(count($filters) > 0)
+        {
+            $query = $query." WHERE ".join(" AND ", $queryParts);
+        }
+
+        $query = $query." ORDER BY e.dateofpublication DESC";
+
+        $stmt = $this->databse->connect()->prepare($query);
+        $stmt->execute($filters);
+        $exchangesData = $stmt->fetchAll();
+        if(!$exchangesData)
+        {
+            return [];
+        }
+
+        $exchanges = [];
+        foreach ($exchangesData as $exchangeData)
+        {
+            $exchange = new Exchange(
+                $exchangeData["e_idexchange"],
+                $exchangeData["e_dateofpublication"],
+                $exchangeData["e_announcementdate"],
+                $exchangeData["e_tablenumber"],
+                $exchangeData["e_factor"],
+                $exchangeData["e_rate"],
+                $exchangeData["c_idcurrency"]
+            );
+
+            $currency = new Currency(
+                $exchangeData["c_idcurrency"],
+                $exchangeData["c_symbol"],
+                $exchangeData["c_name"]
+            );
+
+            $exchange->setCurrency($currency);
+
+            array_push($exchanges, $exchange);
+        }
+        return $exchanges;
+    }
+
     public function getLastExchangeByCurrencySymbol(string $date, string $currencySymbol): ?Exchange
     {
         $query = "SELECT e.* FROM trader.exchanges e

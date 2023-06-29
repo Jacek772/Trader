@@ -38,4 +38,9 @@ class DocumentpositionsService
     {
         return $this->documentpositionsRepository->getDocumentposition($iddocument, $idcommodity);
     }
+
+    public function deleteDocumentpositions(array $ids): void
+    {
+        $this->documentpositionsRepository->deleteDocumentpositions($ids);
+    }
 }

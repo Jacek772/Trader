@@ -1,7 +1,7 @@
 
 class FiltersPanel extends HtmlComponent {
     _items = []
-    onChange = (filters) => { }
+    _onChange = (filters) => { }
 
     constructor()
     {
@@ -11,9 +11,9 @@ class FiltersPanel extends HtmlComponent {
 
     addItem = (item) => {
         this._items.push(item)
-        item.onChange = () => {
-            this.onChange(this.getFilters())
-        }
+        item.setOnChange(() => {
+            this._onChange(this.getFilters())
+        })
         this._refresh()
     }
 
@@ -30,6 +30,10 @@ class FiltersPanel extends HtmlComponent {
             filters.push(item.getFilters())
         }
         return filters
+    }
+
+    setOnChange = (onChange) => {
+        this._onChange = onChange
     }
 
     _initFilterPanel = () => {
@@ -58,7 +62,7 @@ class FilterPanelItem extends HtmlComponent {
     _fieldValues = []
     _type
     _optionsData
-    onChange = (fieldValues) => {}
+    _onChange = (fieldValues) => {}
 
     // Niezbędne dla type.SELECT
     // options = { text, value }
@@ -139,7 +143,7 @@ class FilterPanelItem extends HtmlComponent {
         input.classList.add("input-border")
         input.addEventListener("input", (e) => {
             this._fieldValues = [ e.target.value ]
-            this.onChange(this._fieldValues)
+            this._onChange(this._fieldValues)
         })
 
         this._fieldValues = [null]
@@ -167,7 +171,8 @@ class FilterPanelItem extends HtmlComponent {
             {
                 this._fieldValues = [ e.target.value ]
             }
-            this.onChange(this._fieldValues)
+
+            this._onChange(this._fieldValues)
         })
 
         if(withEmpty)
@@ -226,7 +231,7 @@ class FilterPanelItem extends HtmlComponent {
             }
 
             this._fieldValues[0] = dateFrom ? this._formatDate(dateFrom) : null
-            this.onChange(this._fieldValues)
+            this._onChange(this._fieldValues)
         })
 
         inputTo.type = "date"
@@ -252,7 +257,7 @@ class FilterPanelItem extends HtmlComponent {
             }
 
             this._fieldValues[1] = dateTo ? this._formatDate(dateTo) : null
-            this.onChange(this._fieldValues)
+            this._onChange(this._fieldValues)
         })
 
         this._fieldValues = [null, null]
@@ -304,5 +309,9 @@ class FilterPanelItem extends HtmlComponent {
             filters[this._fieldNames[1]] = this._fieldValues[1]
         }
         return filters
+    }
+
+    setOnChange(onChange) {
+        this._onChange = onChange
     }
 }
