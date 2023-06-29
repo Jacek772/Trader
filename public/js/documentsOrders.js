@@ -5,8 +5,8 @@ const headers = [
     { text: "Date", width: "10%", fieldName: "date" },
     { text: "State", width: "10%", fieldName: "state" },
     { text: "Warehouse", width: "15%", fieldName: "warehouse" },
-    { text: "Sum netto", width: "10%", fieldName: "sunNetto" },
-    { text: "Sum brutto", width: "10%", fieldName: "sumBrutto" }
+    { text: "Sum netto", width: "10%", fieldName: "valueNetto" },
+    { text: "Sum brutto", width: "10%", fieldName: "valueGross" }
 ]
 
 let modal
